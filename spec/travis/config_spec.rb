@@ -2,8 +2,8 @@ require 'spec_helper'
 
 module Travis::Test
   class Config < Travis::Config
-    define amqp:     { username: 'guest', password: 'guest', host: 'localhost', prefetch: 1 },
-           database: { adapter: 'postgresql', database: 'test', encoding: 'unicode' }
+    define amqp: { username: 'guest', password: 'guest', host: 'localhost', prefetch: 1 }
+    define database: { adapter: 'postgresql', database: 'test', encoding: 'unicode' }
   end
 end
 
@@ -16,17 +16,17 @@ describe Travis::Config do
     end
 
     it 'is a Hashr instance' do
-      config.should be_kind_of(Hashr)
+      expect(config).to be_kind_of(Hashr)
     end
 
     it 'returns Hashr instances on subkeys' do
       ENV['travis_config'] = YAML.dump('redis' => { 'url' => 'redis://localhost:6379' })
-      config.redis.should be_kind_of(Hashr)
+      expect(config.redis).to be_kind_of(Hashr)
     end
 
     it 'returns Hashr instances on subkeys that were set to Ruby Hashes' do
       config.foo = { :bar => { :baz => 'baz' } }
-      config.foo.bar.should be_kind_of(Hashr)
+      expect(config.foo.bar).to be_kind_of(Hashr)
     end
   end
 
@@ -38,7 +38,7 @@ describe Travis::Config do
     it 'works when given a url with a port' do
       ENV['DATABASE_URL'] = 'postgres://username:password@hostname:port/database'
 
-      config.database.to_hash.should == {
+      expect(config.database.to_hash).to eq(
         :adapter => 'postgresql',
         :host => 'hostname',
         :port => 'port',
@@ -46,20 +46,20 @@ describe Travis::Config do
         :username => 'username',
         :password => 'password',
         :encoding => 'unicode'
-      }
+      )
     end
 
     it 'works when given a url without a port' do
       ENV['DATABASE_URL'] = 'postgres://username:password@hostname/database'
 
-      config.database.to_hash.should == {
+      expect(config.database.to_hash).to eq(
         :adapter => 'postgresql',
         :host => 'hostname',
         :database => 'database',
         :username => 'username',
         :password => 'password',
         :encoding => 'unicode'
-      }
+      )
     end
   end
 
@@ -69,7 +69,7 @@ describe Travis::Config do
     it 'can access all keys recursively' do
       nested_access = lambda do |config, data|
         data.keys.each do |key|
-          lambda { config.send(key) }.should_not raise_error
+          expect(-> { config.send(key) }).to_not raise_error
           nested_access.call(config.send(key), data[key]) if data[key].is_a?(Hash)
         end
       end
@@ -86,16 +86,16 @@ describe Travis::Config do
     end
 
     it 'still reads the default config file' do
-      config.travis.should == 'travis'
+      expect(config.travis).to eq('travis')
     end
 
     it 'merges custom files' do
-      config.foo.should == 'foo'
-      config.bar.should == 'bar'
+      expect(config.foo).to eq('foo')
+      expect(config.bar).to eq('bar')
     end
 
     it 'overwrites previously set values with values loaded later' do
-      config.shared.should == 'bar'
+      expect(config.shared).to eq('bar')
     end
   end
 
@@ -112,11 +112,11 @@ describe Travis::Config do
       end
 
       it 'loads host and port from the env var' do
-        config.database.values_at(:host, :port).should == ['172.17.0.11', '5432']
+        expect(config.database.values_at(:host, :port)).to eq(['172.17.0.11', '5432'])
       end
 
       it 'keeps adapter, database, encoding from the regular config' do
-        config.database.values_at(:adapter, :database, :encoding).should == ['postgresql', 'test', 'unicode']
+        expect(config.database.values_at(:adapter, :database, :encoding)).to eq(['postgresql', 'test', 'unicode'])
       end
     end
 
@@ -126,23 +126,23 @@ describe Travis::Config do
       end
 
       it 'loads host and port from the env var' do
-        config.amqp.values_at(:host, :port).should == ['172.17.0.11', '5672']
+        expect(config.amqp.values_at(:host, :port)).to eq(['172.17.0.11', '5672'])
       end
 
       it 'keeps username, password, prefetch from the regular config' do
-        config.amqp.values_at(:username, :password, :prefetch).should == ['guest', 'guest', 1]
+        expect(config.amqp.values_at(:username, :password, :prefetch)).to eq(['guest', 'guest', 1])
       end
     end
 
     it 'loads REDIS_PORT' do
       ENV['REDIS_PORT'] = 'tcp://172.17.0.7:6379'
-      config.redis.should == { url: 'tcp://172.17.0.7:6379' }
+      expect(config.redis).to eq({ url: 'tcp://172.17.0.7:6379' })
     end
   end
 
   it 'deep symbolizes arrays, too' do
     config = Travis::Config.new('queues' => [{ 'slug' => 'rails/rails', 'queue' => 'rails' }])
-    config.queues.first.values_at(:slug, :queue).should == ['rails/rails', 'rails']
+    expect(config.queues.first.values_at(:slug, :queue)).to eq(['rails/rails', 'rails'])
   end
 end
 
