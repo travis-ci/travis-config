@@ -145,5 +145,3 @@ describe Travis::Config do
     expect(config.queues.first.values_at(:slug, :queue)).to eq(['rails/rails', 'rails'])
   end
 end
-
-
