@@ -25,11 +25,14 @@ module Travis
       include Helpers
 
       def load(*loaders)
+        loaders = [:files, :env, :heroku, :docker] if loaders.empty?
+
         data = loaders.inject({}) do |data, name|
           const = const_get(camelize(name)).new
           other = deep_symbolize_keys(const.load)
           deep_merge(data, other)
         end
+
         new(data)
       end
     end
