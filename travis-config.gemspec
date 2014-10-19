@@ -10,12 +10,14 @@ Gem::Specification.new do |s|
   s.email        = "contact@travis-ci.org"
   s.homepage     = "https://github.com/travis-ci/travis-core"
   s.summary      = "Travis CI config"
+  s.description  = "#{s.summary}."
+  s.license      = "MIT"
 
   s.files        = Dir['{lib/**/*,spec/**/*,[A-Z]*}']
   s.platform     = Gem::Platform::RUBY
   s.require_path = 'lib'
   s.rubyforge_project = '[none]'
 
-  s.add_dependency 'hashr'
-  s.add_development_dependency 'rspec'
+  s.add_dependency 'hashr', '~> 0.0'
+  s.add_development_dependency 'rspec', '~> 3.0'
 end
