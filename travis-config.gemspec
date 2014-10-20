@@ -5,7 +5,7 @@ require 'travis/config/version'
 
 Gem::Specification.new do |s|
   s.name         = "travis-config"
-  s.version      = Travis::Config::VERSION
+  s.version      = TravisConfig::VERSION
   s.authors      = ["Travis CI"]
   s.email        = "contact@travis-ci.org"
   s.homepage     = "https://github.com/travis-ci/travis-core"
