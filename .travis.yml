@@ -7,3 +7,5 @@ rvm:
   - jruby-19mode
 
 sudo: false
+
+script: bundle exec rspec spec
