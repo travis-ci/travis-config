@@ -9,15 +9,11 @@ module Travis
 
       def load
         filenames.inject({}) do |config, filename|
-          deep_merge(config, load_file(filename)[env] || {})
+          deep_merge(config, load_file(filename)[Config.env] || {})
         end
       end
 
       private
-
-        def env
-          ENV['ENV'] || ENV['RAILS_ENV'] || ENV['RACK_ENV'] || 'development'
-        end
 
         def load_file(filename)
           YAML.load_file(filename) || {} rescue {}
