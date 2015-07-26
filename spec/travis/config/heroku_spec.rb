@@ -29,8 +29,8 @@ describe Travis::Config::Heroku do
     )
   end
 
-  it 'loads POOL_SIZE' do
-    ENV['POOL_SIZE'] = '25'
+  it 'loads DB_POOL' do
+    ENV['DB_POOL'] = '25'
 
     expect(config.database.to_hash).to eq(
       adapter:  'postgresql',
