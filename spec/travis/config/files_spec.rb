@@ -1,35 +1,5 @@
-describe Travis::Config do
-  let(:config) { Travis::Test::Config.load(:files, :env, :heroku, :docker) }
-
-  describe 'Hashr behaviour' do
-    after :each do
-      ENV.delete('travis_config')
-    end
-
-    it 'is a Hashr instance' do
-      expect(config).to be_kind_of(Hashr)
-    end
-
-    it 'returns Hashr instances on subkeys' do
-      ENV['travis_config'] = YAML.dump('redis' => { 'url' => 'redis://localhost:6379' })
-      expect(config.redis).to be_kind_of(Hashr)
-    end
-
-    it 'returns Hashr instances on subkeys that were set to Ruby Hashes' do
-      config.foo = { :bar => { :baz => 'baz' } }
-      expect(config.foo.bar).to be_kind_of(Hashr)
-    end
-
-    it 'can access all keys recursively' do
-      access = proc do |config|
-        config.keys.each do |key|
-          expect(proc { config.send(key) }).to_not raise_error
-          access.call(config.send(key)) if config[key].is_a?(Hash)
-        end
-      end
-      access.call(config)
-    end
-  end
+describe Travis::Config::Files do
+  let(:config) { Travis::Test::Config.load(:files) }
 
   describe 'reads custom config files' do
     before :each do

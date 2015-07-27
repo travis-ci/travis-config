@@ -24,6 +24,10 @@ module Travis
     class << self
       include Helpers
 
+      def env
+        @env ||= ENV['ENV'] || ENV['RAILS_ENV'] || ENV['RACK_ENV'] || 'development'
+      end
+
       def load(*loaders)
         loaders = [:files, :env, :heroku, :docker] if loaders.empty?
 
@@ -35,6 +39,10 @@ module Travis
 
         new(data)
       end
+    end
+
+    def env
+      self.class.env
     end
   end
 end

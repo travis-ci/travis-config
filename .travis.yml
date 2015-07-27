@@ -8,4 +8,4 @@ rvm:
 
 sudo: false
 
-script: bundle exec rspec spec
+script: bundle exec rspec spec --color --format documentation --require spec_helper
