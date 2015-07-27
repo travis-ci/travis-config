@@ -21,9 +21,9 @@ describe Travis::Config do
     end
 
     it 'can access all keys recursively' do
-      access = -> (config) do
+      access = proc do |config|
         config.keys.each do |key|
-          expect(-> { config.send(key) }).to_not raise_error
+          expect(proc { config.send(key) }).to_not raise_error
           access.call(config.send(key)) if config[key].is_a?(Hash)
         end
       end
