@@ -37,6 +37,21 @@ module Travis::Logs
 end
 ```
 
+### Config sources
+
+Serveral config sources are supported:
+
+* Files: All files `config/travis.yml` and `config/travis/*.yml` are read and
+  merged (alpabetically sorted).
+* Env: `ENV['travis_config']` is parsed as YAML and merged, if present.
+* Heroku: The env vars `DATABASE_URL` or `SHARED_DATABASE_URL`, and `DB_POOL`
+  or `DATABASE_POOL_SIZE` are merged into the database config.
+* Docker: The env vars `POSTGRESQL_PORT`, `RABBITMQ_PORT`, and `REDIS_PORT` are
+  interpreted as resource URLs, and merged into the database config.
+
+Configuration from all sources is merged before it is passed to the `Hashr`
+instance. All merging is deep merging of Hashes on any level.
+
 ### Doing a Rubygem release
 
 Any tool works. The current releases were done with
