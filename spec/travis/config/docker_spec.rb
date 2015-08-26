@@ -30,8 +30,8 @@ describe Travis::Config::Docker do
   describe 'loads REDIS_PORT' do
     before { ENV['REDIS_PORT'] = 'tcp://172.17.0.7:6379' }
 
-    it 'loads the port to redis.url' do
-      expect(config.redis.to_h).to eq({ url: 'tcp://172.17.0.7:6379' })
+    it 'loads the port to redis.url as a redis:// url' do
+      expect(config.redis.to_h).to eq({ url: 'redis://172.17.0.7:6379' })
     end
   end
 end
