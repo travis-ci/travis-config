@@ -43,4 +43,19 @@ describe Travis::Config::Heroku do
       pool:     25
     )
   end
+
+  it 'loads DATABASE_POOL_SIZE' do
+    ENV['DATABASE_POOL_SIZE'] = '25'
+
+    expect(config.database.to_hash).to eq(
+      adapter:  'postgresql',
+      host:     'hostname',
+      port:     'port',
+      database: 'database',
+      username: 'username',
+      password: 'password',
+      encoding: 'unicode',
+      pool:     25
+    )
+  end
 end

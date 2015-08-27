@@ -26,11 +26,11 @@ module Travis
         end
 
         def pool_size
-          ENV.values_at('DB_POOL', 'DATABASE_POOL_SIZE').first
+          ENV.values_at('DB_POOL', 'DATABASE_POOL_SIZE').compact.first
         end
 
         def database_url
-          ENV.values_at('DATABASE_URL', 'SHARED_DATABASE_URL').first
+          ENV.values_at('DATABASE_URL', 'SHARED_DATABASE_URL').compact.first
         end
     end
   end
