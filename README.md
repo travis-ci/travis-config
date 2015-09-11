@@ -61,5 +61,5 @@ one go:
 
 ```bash
 $ gem install gem-release
-$ gem release --tag
+$ gem bump --push --tag --release
 ```
