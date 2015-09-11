@@ -9,10 +9,7 @@ module Travis
       DATABASE_URL = %r((?:.+?)://(?<username>.+):(?<password>.+)@(?<host>[^:]+):?(?<port>.*)/(?<database>.+))
 
       def load
-        {
-          database: database,
-          logs_database: logs_database
-        }
+        compact(database: database, logs_database: logs_database)
       end
 
       private
@@ -26,7 +23,7 @@ module Travis
         def logs_database
           config = parse_database_url(logs_database_url)
           config = config.merge(pool: logs_pool_size.to_i) if logs_pool_size
-          config
+          config.merge(adapter: 'postgresql', encoding: 'unicode') unless config.empty?
         end
 
         def parse_database_url(url)

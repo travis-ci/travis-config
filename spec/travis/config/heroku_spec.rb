@@ -1,11 +1,11 @@
 describe Travis::Config::Heroku do
   let(:config) { Travis::Test::Config.load(:heroku) }
-  let(:vars)   { %w(DATABASE_URL POOL_SIZE) }
+  let(:vars)   { %w(DATABASE_URL DB_POOL DATABASE_POOL_SIZE LOGS_DATABASE_URL LOGS_DB_POOL LOGS_DATABASE_POOL_SIZE) }
   after        { vars.each { |key| ENV.delete(key) } }
-  before       { ENV['DATABASE_URL'] = 'postgres://username:password@hostname:port/database' }
-  before       { ENV['LOGS_DATABASE_URL'] = 'postgres://username:password@hostname:port/logs_database' }
 
   it 'loads a DATABASE_URL with a port' do
+    ENV['DATABASE_URL'] = 'postgres://username:password@hostname:port/database'
+
     expect(config.database.to_hash).to eq(
       adapter:  'postgresql',
       host:     'hostname',
@@ -31,6 +31,7 @@ describe Travis::Config::Heroku do
   end
 
   it 'loads DB_POOL' do
+    ENV['DATABASE_URL'] = 'postgres://username:password@hostname:port/database'
     ENV['DB_POOL'] = '25'
 
     expect(config.database.to_hash).to eq(
@@ -46,6 +47,7 @@ describe Travis::Config::Heroku do
   end
 
   it 'loads DATABASE_POOL_SIZE' do
+    ENV['DATABASE_URL'] = 'postgres://username:password@hostname:port/database'
     ENV['DATABASE_POOL_SIZE'] = '25'
 
     expect(config.database.to_hash).to eq(
@@ -61,6 +63,8 @@ describe Travis::Config::Heroku do
   end
 
   it 'loads a LOGS_DATABASE_URL with a port' do
+    ENV['LOGS_DATABASE_URL'] = 'postgres://username:password@hostname:port/logs_database'
+
     expect(config.logs_database.to_hash).to eq(
       adapter:  'postgresql',
       host:     'hostname',
@@ -86,6 +90,7 @@ describe Travis::Config::Heroku do
   end
 
   it 'loads LOGS_DB_POOL' do
+    ENV['LOGS_DATABASE_URL'] = 'postgres://username:password@hostname:port/logs_database'
     ENV['LOGS_DB_POOL'] = '25'
 
     expect(config.logs_database.to_hash).to eq(
@@ -101,6 +106,7 @@ describe Travis::Config::Heroku do
   end
 
   it 'loads LOGS_DATABASE_POOL_SIZE' do
+    ENV['LOGS_DATABASE_URL'] = 'postgres://username:password@hostname:port/logs_database'
     ENV['LOGS_DATABASE_POOL_SIZE'] = '25'
 
     expect(config.logs_database.to_hash).to eq(
@@ -113,5 +119,9 @@ describe Travis::Config::Heroku do
       encoding: 'unicode',
       pool:     25
     )
+  end
+
+  it 'sets logs_database to nil if no logs db url given' do
+    expect(config.logs_database).to be_nil
   end
 end

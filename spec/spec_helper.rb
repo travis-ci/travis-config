@@ -7,7 +7,6 @@ module Travis::Test
   class Config < Travis::Config
     define amqp: { username: 'guest', password: 'guest', host: 'localhost', prefetch: 1 }
     define database: { adapter: 'postgresql', database: 'test', encoding: 'unicode' }
-    define logs_database: { adapter: 'postgresql', database: 'logs_test', encoding: 'unicode' }
   end
 end
 
