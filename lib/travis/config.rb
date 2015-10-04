@@ -4,21 +4,6 @@ require 'travis/config/env'
 require 'travis/config/files'
 require 'travis/config/heroku'
 
-# patch Hashr to merge with existing definitions and defaults
-class Hashr < Hash
-  class << self
-    def define(definition)
-      definition = self.definition.merge(definition.deep_symbolize_keys)
-      @definition = deep_accessorize(definition)
-    end
-
-    def default(defaults)
-      defaults = self.defaults.merge(defaults)
-      @defaults = deep_accessorize(defaults)
-    end
-  end
-end
-
 module Travis
   class Config < Hashr
     class << self
