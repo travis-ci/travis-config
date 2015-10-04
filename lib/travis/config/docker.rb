@@ -1,8 +1,7 @@
-require 'hashr'
 require 'travis/config/helpers'
 
 module Travis
-  class Config < Hashr
+  class Config
     class Docker
       include Helpers
 

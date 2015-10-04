@@ -1,7 +1,5 @@
-require 'hashr'
-
 module Travis
-  class Config < Hashr
+  class Config
     module Helpers
       def deep_symbolize_keys(hash)
         hash.inject({}) do |result, (key, value)|
@@ -40,11 +38,10 @@ module Travis
       end
 
       def camelize(string)
-        string = string.to_s
-        string = string.sub(/^[a-z\d]*/) { $&.capitalize }
-        string.gsub!(/(?:_|(\/))([a-z\d]*)/i) { "#{$1}#{$2.capitalize}" }
-        string.gsub!('/', '::')
-        string
+        string.to_s.
+          sub(/^[a-z\d]*/) { $&.capitalize }.
+          gsub(/(?:_|(\/))([a-z\d]*)/i) { "#{$1}#{$2.capitalize}" }.
+          gsub('/', '::')
       end
     end
   end
