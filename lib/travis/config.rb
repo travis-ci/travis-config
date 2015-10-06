@@ -7,6 +7,8 @@ module Travis
     require 'travis/config/files'
     require 'travis/config/heroku'
 
+    include Hashr::Delegate::Conditional
+
     class << self
       include Helpers
 
