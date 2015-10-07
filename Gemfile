@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gemspec
 
-gem 'hashr', github: 'svenfuchs/hashr', ref: '2.x'
+gem 'hashr', '~> 2.0.0.rc1'
 
 group :test do
   gem 'rspec', '~> 3.0'
