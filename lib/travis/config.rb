@@ -29,7 +29,7 @@ module Travis
         end
 
         def loaders(*names)
-          names = [:files, :env, :heroku, :docker] if names.empty?
+          names = [:files, :heroku, :env, :docker] if names.empty?
           names.map { |name| const_get(camelize(name)).new }
         end
     end
