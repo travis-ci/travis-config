@@ -1,7 +1,5 @@
-require 'hashr'
-
 module Travis
-  class Config < Hashr
+  class Config
     class Env
       def load
         ENV['travis_config'] ? YAML.load(ENV['travis_config']) : {}

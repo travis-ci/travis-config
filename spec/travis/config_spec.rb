@@ -20,14 +20,8 @@ describe Travis::Config do
       expect(config.foo.bar).to be_kind_of(Hashr)
     end
 
-    it 'can access all keys recursively' do
-      access = proc do |config|
-        config.keys.each do |key|
-          expect(proc { config.send(key) }).to_not raise_error
-          access.call(config.send(key)) if config[key].is_a?(Hash)
-        end
-      end
-      access.call(config)
+    it 'can access nested keys' do
+      expect(config.amqp.username).to eq('guest')
     end
   end
 
