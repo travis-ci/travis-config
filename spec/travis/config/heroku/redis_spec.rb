@@ -6,6 +6,6 @@ describe Travis::Config::Heroku, :Redis do
   after        { ENV.delete('REDIS_URL') }
 
   it 'loads a REDIS_URL' do
-    expect(config.redis).to eq(url: url)
+    expect(config.redis.to_h).to eq(url: url)
   end
 end

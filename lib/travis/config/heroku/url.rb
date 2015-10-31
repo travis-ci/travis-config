@@ -4,7 +4,13 @@ module Travis
   class Config
     class Heroku
       module Url
-        Base     = Struct.new(:username, :password, :host, :port, :database)
+        class Base < Struct.new(:username, :password, :host, :port, :database)
+          def to_h
+            Hash[each_pair.to_a]
+          end
+        end
+
+        Generic  = Class.new(Base)
         Postgres = Class.new(Base)
         Redis    = Class.new(Base)
 
@@ -18,7 +24,7 @@ module Travis
 
         class << self
           def parse(url)
-            return {} if url.nil? || url.empty?
+            return Generic.new if url.nil? || url.empty?
             uri   = URI.parse(url)
             const = const_get(camelize(uri.scheme))
             const.new(uri.user, uri.password, uri.host, uri.port, uri.path[1..-1])

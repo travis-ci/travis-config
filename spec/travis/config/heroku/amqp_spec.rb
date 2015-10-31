@@ -6,7 +6,7 @@ describe Travis::Config::Heroku, :Amqp do
   after        { ENV.delete('RABBITMQ_URL') }
 
   it 'loads a RABBITMQ_URL' do
-    expect(config.amqp).to eq(
+    expect(config.amqp.to_h).to eq(
       host:     'hostname',
       port:     1234,
       vhost:    'vhost',
