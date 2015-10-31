@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.version      = TravisConfig::VERSION
   s.authors      = ["Travis CI"]
   s.email        = "contact@travis-ci.org"
-  s.homepage     = "https://github.com/travis-ci/travis-core"
+  s.homepage     = "https://github.com/travis-ci/travis-config"
   s.summary      = "Travis CI config"
   s.description  = "#{s.summary}."
   s.license      = "MIT"
@@ -18,5 +18,5 @@ Gem::Specification.new do |s|
   s.require_path = 'lib'
   s.rubyforge_project = '[none]'
 
-  s.add_dependency 'hashr', '~> 2.0.0.rc1'
+  s.add_dependency 'hashr', '~> 2.0.0'
 end
