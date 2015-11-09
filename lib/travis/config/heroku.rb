@@ -28,7 +28,7 @@ module Travis
         end
 
         def amqp
-          compact(Url.parse(ENV['RABBITMQ_URL']).to_h)
+          compact(Url.parse(ENV['RABBITMQ_URL'] || ENV['RABBITMQ_BIGWIG_URL']).to_h) # rabbitmq-bigwig add-ons can only be attached as RABBITMQ_BIGWIG
         end
 
         def redis
