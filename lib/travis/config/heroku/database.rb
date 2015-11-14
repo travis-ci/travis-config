@@ -6,7 +6,7 @@ module Travis
       class Database < Struct.new(:options)
         include Helpers
 
-        DEFAULTS = { adapter: 'postgresql', encoding: 'unicode' }
+        DEFAULTS = { adapter: 'postgresql', encoding: 'unicode', application_name: ENV['DYNO'] || $0 }
 
         def config
           config = parse_url

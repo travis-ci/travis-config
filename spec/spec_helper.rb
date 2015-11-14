@@ -1,4 +1,5 @@
-ENV['ENV'] = 'test'
+ENV['ENV']  = 'test'
+ENV['DYNO'] = 'travis-config/specs'
 
 require 'mocha'
 require 'travis/config'
