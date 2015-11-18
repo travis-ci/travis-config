@@ -98,7 +98,7 @@ describe Travis::Config::Heroku, :Database do
 
   it 'loads LOGS_DB_POOL' do
     ENV['LOGS_DATABASE_URL'] = 'postgres://username:password@hostname:1234/logs_database'
-    ENV['LOGS_DB_POOL'] = '25'
+    ENV['LOGS_DB_POOL'] = '1'
 
     expect(config.logs_database.to_h).to eq(
       application_name: 'travis-config/specs',
@@ -109,7 +109,7 @@ describe Travis::Config::Heroku, :Database do
       username: 'username',
       password: 'password',
       encoding: 'unicode',
-      pool:     25
+      pool:     1
     )
   end
 
