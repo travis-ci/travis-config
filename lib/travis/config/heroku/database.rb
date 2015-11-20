@@ -6,11 +6,11 @@ module Travis
       class Database < Struct.new(:options)
         include Helpers
 
-        DEFAULTS = { adapter: 'postgresql', encoding: 'unicode', application_name: ENV['DYNO'] || $0 }
+        DEFAULTS = { adapter: 'postgresql', encoding: 'unicode', variables: { application_name: ENV['DYNO'] || $0 } }
 
         def config
           config = parse_url
-          config = DEFAULTS.merge(config) unless config.empty?
+          config = deep_merge(DEFAULTS, config) unless config.empty?
           config[:pool] = pool.to_i if pool
           config
         end

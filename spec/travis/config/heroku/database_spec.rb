@@ -8,14 +8,14 @@ describe Travis::Config::Heroku, :Database do
     ENV['DATABASE_URL'] = 'postgres://username:password@hostname:1234/database'
 
     expect(config.database.to_h).to eq(
-      application_name: 'travis-config/specs',
-      adapter:  'postgresql',
-      host:     'hostname',
-      port:     1234,
-      database: 'database',
-      username: 'username',
-      password: 'password',
-      encoding: 'unicode'
+      adapter:   'postgresql',
+      host:      'hostname',
+      port:      1234,
+      database:  'database',
+      username:  'username',
+      password:  'password',
+      encoding:  'unicode',
+      variables: { application_name: 'travis-config/specs' }
     )
   end
 
@@ -23,13 +23,13 @@ describe Travis::Config::Heroku, :Database do
     ENV['DATABASE_URL'] = 'postgres://username:password@hostname/database'
 
     expect(config.database.to_h).to eq(
-      application_name: 'travis-config/specs',
-      adapter:  'postgresql',
-      host:     'hostname',
-      database: 'database',
-      username: 'username',
-      password: 'password',
-      encoding: 'unicode'
+      adapter:   'postgresql',
+      host:      'hostname',
+      database:  'database',
+      username:  'username',
+      password:  'password',
+      encoding:  'unicode',
+      variables:  { application_name: 'travis-config/specs' }
     )
   end
 
@@ -38,15 +38,15 @@ describe Travis::Config::Heroku, :Database do
     ENV['DB_POOL'] = '25'
 
     expect(config.database.to_h).to eq(
-      application_name: 'travis-config/specs',
-      adapter:  'postgresql',
-      host:     'hostname',
-      port:     1234,
-      database: 'database',
-      username: 'username',
-      password: 'password',
-      encoding: 'unicode',
-      pool:     25
+      adapter:   'postgresql',
+      host:      'hostname',
+      port:      1234,
+      database:  'database',
+      username:  'username',
+      password:  'password',
+      encoding:  'unicode',
+      pool:      25,
+      variables: { application_name: 'travis-config/specs' }
     )
   end
 
@@ -55,15 +55,15 @@ describe Travis::Config::Heroku, :Database do
     ENV['DATABASE_POOL_SIZE'] = '25'
 
     expect(config.database.to_h).to eq(
-      application_name: 'travis-config/specs',
-      adapter:  'postgresql',
-      host:     'hostname',
-      port:     1234,
-      database: 'database',
-      username: 'username',
-      password: 'password',
-      encoding: 'unicode',
-      pool:     25
+      adapter:   'postgresql',
+      host:      'hostname',
+      port:      1234,
+      database:  'database',
+      username:  'username',
+      password:  'password',
+      encoding:  'unicode',
+      pool:      25,
+      variables: { application_name: 'travis-config/specs' }
     )
   end
 
@@ -71,14 +71,14 @@ describe Travis::Config::Heroku, :Database do
     ENV['LOGS_DATABASE_URL'] = 'postgres://username:password@hostname:1234/logs_database'
 
     expect(config.logs_database.to_h).to eq(
-      application_name: 'travis-config/specs',
-      adapter:  'postgresql',
-      host:     'hostname',
-      port:     1234,
-      database: 'logs_database',
-      username: 'username',
-      password: 'password',
-      encoding: 'unicode'
+      adapter:   'postgresql',
+      host:      'hostname',
+      port:      1234,
+      database:  'logs_database',
+      username:  'username',
+      password:  'password',
+      encoding:  'unicode',
+      variables: { application_name: 'travis-config/specs' }
     )
   end
 
@@ -86,13 +86,13 @@ describe Travis::Config::Heroku, :Database do
     ENV['LOGS_DATABASE_URL'] = 'postgres://username:password@hostname/logs_database'
 
     expect(config.logs_database.to_h).to eq(
-      application_name: 'travis-config/specs',
-      adapter:  'postgresql',
-      host:     'hostname',
-      database: 'logs_database',
-      username: 'username',
-      password: 'password',
-      encoding: 'unicode'
+      adapter:   'postgresql',
+      host:      'hostname',
+      database:  'logs_database',
+      username:  'username',
+      password:  'password',
+      encoding:  'unicode',
+      variables: { application_name: 'travis-config/specs' }
     )
   end
 
@@ -101,15 +101,15 @@ describe Travis::Config::Heroku, :Database do
     ENV['LOGS_DB_POOL'] = '1'
 
     expect(config.logs_database.to_h).to eq(
-      application_name: 'travis-config/specs',
-      adapter:  'postgresql',
-      host:     'hostname',
-      port:     1234,
-      database: 'logs_database',
-      username: 'username',
-      password: 'password',
-      encoding: 'unicode',
-      pool:     1
+      adapter:   'postgresql',
+      host:      'hostname',
+      port:      1234,
+      database:  'logs_database',
+      username:  'username',
+      password:  'password',
+      encoding:  'unicode',
+      pool:      1,
+      variables: { application_name: 'travis-config/specs' }
     )
   end
 
@@ -118,15 +118,15 @@ describe Travis::Config::Heroku, :Database do
     ENV['LOGS_DATABASE_POOL_SIZE'] = '25'
 
     expect(config.logs_database.to_h).to eq(
-      application_name: 'travis-config/specs',
-      adapter:  'postgresql',
-      host:     'hostname',
-      port:     1234,
-      database: 'logs_database',
-      username: 'username',
-      password: 'password',
-      encoding: 'unicode',
-      pool:     25
+      adapter:   'postgresql',
+      host:      'hostname',
+      port:      1234,
+      database:  'logs_database',
+      username:  'username',
+      password:  'password',
+      encoding:  'unicode',
+      pool:      25,
+      variables: { application_name: 'travis-config/specs' }
     )
   end
 
