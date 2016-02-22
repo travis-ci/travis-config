@@ -1,8 +1,23 @@
 describe Travis::Config::Heroku, :Database do
   let(:config) { Travis::Test::Config.load(:heroku) }
-  let(:vars)   { %w(DATABASE_URL DB_POOL DATABASE_POOL_SIZE LOGS_DATABASE_URL LOGS_DB_POOL LOGS_DATABASE_POOL_SIZE DYNO) }
+  let(:vars)   { %w(TRAVIS_DATABASE_URL DATABASE_URL DB_POOL TRAVIS_DATABASE_POOL_SIZE DATABASE_POOL_SIZE LOGS_DATABASE_URL LOGS_DB_POOL LOGS_DATABASE_POOL_SIZE DYNO) }
   after        { vars.each { |key| ENV.delete(key) } }
   before       { ENV['DYNO'] = 'app_name' }
+
+  it 'loads a TRAVIS_DATABASE_URL with a port' do
+    ENV['TRAVIS_DATABASE_URL'] = 'postgres://username:password@hostname:1234/database'
+
+    expect(config.database.to_h).to eq(
+      adapter:   'postgresql',
+      host:      'hostname',
+      port:      1234,
+      database:  'database',
+      username:  'username',
+      password:  'password',
+      encoding:  'unicode',
+      variables: { application_name: 'travis-config/specs', statement_timeout: 10_000 }
+    )
+  end
 
   it 'loads a DATABASE_URL with a port' do
     ENV['DATABASE_URL'] = 'postgres://username:password@hostname:1234/database'
@@ -15,7 +30,7 @@ describe Travis::Config::Heroku, :Database do
       username:  'username',
       password:  'password',
       encoding:  'unicode',
-      variables: { application_name: 'travis-config/specs' }
+      variables: { application_name: 'travis-config/specs', statement_timeout: 10_000 }
     )
   end
 
@@ -29,24 +44,7 @@ describe Travis::Config::Heroku, :Database do
       username:  'username',
       password:  'password',
       encoding:  'unicode',
-      variables:  { application_name: 'travis-config/specs' }
-    )
-  end
-
-  it 'loads DB_POOL' do
-    ENV['DATABASE_URL'] = 'postgres://username:password@hostname:1234/database'
-    ENV['DB_POOL'] = '25'
-
-    expect(config.database.to_h).to eq(
-      adapter:   'postgresql',
-      host:      'hostname',
-      port:      1234,
-      database:  'database',
-      username:  'username',
-      password:  'password',
-      encoding:  'unicode',
-      pool:      25,
-      variables: { application_name: 'travis-config/specs' }
+      variables:  { application_name: 'travis-config/specs', statement_timeout: 10_000 }
     )
   end
 
@@ -63,7 +61,41 @@ describe Travis::Config::Heroku, :Database do
       password:  'password',
       encoding:  'unicode',
       pool:      25,
-      variables: { application_name: 'travis-config/specs' }
+      variables: { application_name: 'travis-config/specs', statement_timeout: 10_000 }
+    )
+  end
+
+  it 'loads DATABASE_POOL_SIZE' do
+    ENV['DATABASE_URL'] = 'postgres://username:password@hostname:1234/database'
+    ENV['DATABASE_POOL_SIZE'] = '25'
+
+    expect(config.database.to_h).to eq(
+      adapter:   'postgresql',
+      host:      'hostname',
+      port:      1234,
+      database:  'database',
+      username:  'username',
+      password:  'password',
+      encoding:  'unicode',
+      pool:      25,
+      variables: { application_name: 'travis-config/specs', statement_timeout: 10_000 }
+    )
+  end
+
+  it 'loads DB_POOL' do
+    ENV['DATABASE_URL'] = 'postgres://username:password@hostname:1234/database'
+    ENV['DB_POOL'] = '25'
+
+    expect(config.database.to_h).to eq(
+      adapter:   'postgresql',
+      host:      'hostname',
+      port:      1234,
+      database:  'database',
+      username:  'username',
+      password:  'password',
+      encoding:  'unicode',
+      pool:      25,
+      variables: { application_name: 'travis-config/specs', statement_timeout: 10_000 }
     )
   end
 
@@ -78,7 +110,7 @@ describe Travis::Config::Heroku, :Database do
       username:  'username',
       password:  'password',
       encoding:  'unicode',
-      variables: { application_name: 'travis-config/specs' }
+      variables: { application_name: 'travis-config/specs', statement_timeout: 10_000 }
     )
   end
 
@@ -92,7 +124,7 @@ describe Travis::Config::Heroku, :Database do
       username:  'username',
       password:  'password',
       encoding:  'unicode',
-      variables: { application_name: 'travis-config/specs' }
+      variables: { application_name: 'travis-config/specs', statement_timeout: 10_000 }
     )
   end
 
@@ -109,7 +141,7 @@ describe Travis::Config::Heroku, :Database do
       password:  'password',
       encoding:  'unicode',
       pool:      1,
-      variables: { application_name: 'travis-config/specs' }
+      variables: { application_name: 'travis-config/specs', statement_timeout: 10_000 }
     )
   end
 
@@ -126,7 +158,7 @@ describe Travis::Config::Heroku, :Database do
       password:  'password',
       encoding:  'unicode',
       pool:      25,
-      variables: { application_name: 'travis-config/specs' }
+      variables: { application_name: 'travis-config/specs', statement_timeout: 10_000 }
     )
   end
 
