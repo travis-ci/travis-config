@@ -193,7 +193,22 @@ describe Travis::Config::Heroku, :Database do
     )
   end
 
-  it 'sets logs_database to nil if no logs db url given' do
+  it 'defaults logs_database to database if no other config is given' do
+    ENV['DATABASE_URL'] = 'postgres://username:password@hostname:1234/logs_database'
+
+    expect(config.logs_database.to_h).to eq(
+      adapter:   'postgresql',
+      host:      'hostname',
+      port:      1234,
+      database:  'logs_database',
+      username:  'username',
+      password:  'password',
+      encoding:  'unicode',
+      variables: { application_name: 'travis-config/specs', statement_timeout: 10_000 }
+    )
+  end
+
+  it 'sets logs_database to nil if no DATABASE_URL and no LOGS_DATABASE_URL is given' do
     expect(config.logs_database).to be_nil
   end
 end

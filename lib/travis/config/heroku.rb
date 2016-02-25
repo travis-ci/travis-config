@@ -24,7 +24,8 @@ module Travis
         end
 
         def logs_database
-          Database.new(prefix: 'logs').config
+          config = Database.new(prefix: 'logs').config
+          config.empty? ? database : config
         end
 
         def amqp
