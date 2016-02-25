@@ -19,19 +19,20 @@ module Travis
         private
 
           def url
-            env('TRAVIS_DATABASE_URL', 'DATABASE_URL').compact.first
+            env('DATABASE_URL').compact.first
           end
 
           def pool
-            env('TRAVIS_DATABASE_POOL_SIZE', 'DATABASE_POOL_SIZE', 'DB_POOL').compact.first
+            env('DATABASE_POOL_SIZE', 'DB_POOL').compact.first
           end
 
           def env(*keys)
-            ENV.values_at(*keys.map { |key| prefix(key) })
+            ENV.values_at(*keys.map { |key| prefix(key) }.flatten)
           end
 
           def prefix(key)
-            [options[:prefix], key].compact.join('_').upcase
+            key = [options[:prefix], key].compact.join('_').upcase
+            ["TRAVIS_#{key}", key]
           end
 
           def options
