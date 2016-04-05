@@ -15,7 +15,10 @@ module Travis
       private
 
         def load_file(filename)
-          YAML.load_file(filename) || {} rescue {}
+          YAML.load_file(filename) || {}
+        rescue => e
+          puts "Could not parse file #{filename} (#{e.message})"
+          {}
         end
 
         def filenames
