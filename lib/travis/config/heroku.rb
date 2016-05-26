@@ -4,7 +4,7 @@ require 'travis/config/heroku/memcached'
 
 module Travis
   class Config
-    class Heroku
+    class Heroku # TODO rename to EnvVar
       include Helpers
 
       def load
@@ -24,8 +24,7 @@ module Travis
         end
 
         def logs_database
-          config = Database.new(prefix: 'logs').config
-          config.empty? ? database : config
+          Database.new(prefix: 'logs').config
         end
 
         def amqp
