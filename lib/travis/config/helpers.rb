@@ -34,7 +34,7 @@ module Travis
       end
 
       def blank?(obj)
-        obj.respond_to?(:empty?) ? !!obj.empty? : !obj
+        obj.respond_to?(:empty?) ? obj.empty? : !obj
       end
 
       def camelize(string)

@@ -47,9 +47,31 @@ describe Travis::Config do
     end
   end
 
-
   it 'deep symbolizes arrays, too' do
     config = Travis::Config.new('queues' => [{ 'slug' => 'rails/rails', 'queue' => 'rails' }])
     expect(config.queues.first.values_at(:slug, :queue)).to eq(['rails/rails', 'rails'])
+  end
+
+  describe 'logs_database config' do
+    before { ENV['DATABASE_URL'] = 'postgres://username:password@hostname:1234/database' }
+    after  { ENV['DATABASE_URL'] = nil }
+
+    describe 'given logs_database is defined in a config file' do
+      before do
+        Dir.stubs(:[]).returns ['config/travis.yml']
+        YAML.stubs(:load_file).with('config/travis.yml').returns('test' => { 'logs_database' => { 'database' => 'config_file' } })
+      end
+      it { expect(config.logs_database.database).to eq 'config_file' }
+    end
+
+    describe 'given logs_database is defined in the keychain' do
+      before { ENV['travis_config'] = YAML.dump('logs_database' => { 'database' => 'keychain' }) }
+      after  { ENV['travis_config'] = nil }
+      it { expect(config.logs_database.database).to eq 'keychain' }
+    end
+
+    describe 'given logs_database is not defined anywhere it defaults to database' do
+      it { expect(config.logs_database.database).to eq 'database' }
+    end
   end
 end
