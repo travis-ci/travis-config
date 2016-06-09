@@ -13,6 +13,7 @@ module Travis
         Generic  = Class.new(Base)
         Postgres = Class.new(Base)
         Redis    = Class.new(Base)
+        Mock     = Class.new(Base)
 
         class Amqp < Base
           alias :vhost :database
