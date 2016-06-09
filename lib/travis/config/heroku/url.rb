@@ -13,6 +13,7 @@ module Travis
         Generic  = Class.new(Base)
         Postgres = Class.new(Base)
         Redis    = Class.new(Base)
+        Mock     = Class.new(Base) # e.g. mock:// used for Sequel::Mock
 
         class Amqp < Base
           alias :vhost :database
