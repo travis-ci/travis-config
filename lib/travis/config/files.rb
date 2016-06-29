@@ -8,7 +8,13 @@ module Travis
 
       def load
         filenames.inject({}) do |config, filename|
-          deep_merge(config, load_file(filename)[Config.env] || {})
+          file_config = load_file(filename)
+          if Config.env != "production" and file_config[Config.env].nil?
+            puts "Warning: config in #{filename} has no data for current env #{Config.env}"
+            puts "If you are expecting config to be loaded from this file, please make sure"
+            puts "your config is indented under a key of the environment (#{Config.env})"
+          end
+          deep_merge(config, file_config[Config.env] || {})
         end
       end
 
