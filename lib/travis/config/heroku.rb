@@ -13,7 +13,8 @@ module Travis
           logs_database: logs_database,
           amqp: amqp,
           redis: redis,
-          memcached: memcached
+          memcached: memcached,
+          sentry: sentry
         )
       end
 
@@ -35,6 +36,10 @@ module Travis
           compact(url: redis_url)
         end
 
+        def sentry
+          compact(dsn: sentry_dsn)
+        end
+
         def memcached
           Memcached.new.config
         end
@@ -46,6 +51,10 @@ module Travis
 
         def redis_url
           ENV['TRAVIS_REDIS_URL'] || ENV['REDIS_URL']
+        end
+
+        def sentry_dsn
+          ENV['TRAVIS_SENTRY_DSN'] || ENV['SENTRY_DSN']
         end
     end
   end
