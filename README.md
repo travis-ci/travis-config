@@ -2,6 +2,8 @@
 
 Shared way of loading and reading configuration in Travis CI.
 
+Internal documentation for Travis CI Builders on how configs are loaded for Travis apps can be found [here](https://github.com/travis-pro/team-teal/wiki/How-config-files-are-handled). (not publicly accessible)
+
 Users can either set defaults and include logic directly to the class
 `Travis::Config` or extend the class to, e.g. `Travis::Logs::Config`.
 
