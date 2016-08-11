@@ -31,7 +31,7 @@ module Travis
           end
 
           def to_h
-            super.merge(ssl: true)
+            super.merge(ssl: ssl)
           end
         end
 
