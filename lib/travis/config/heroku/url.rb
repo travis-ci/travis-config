@@ -25,7 +25,7 @@ module Travis
 
         # The amqps:// protocol needs to also pass along that it has SSL enabled
         # for adapters such as march_hare
-        class Ampqs < Amqp
+        class Amqps < Amqp
           def ssl
             true
           end
