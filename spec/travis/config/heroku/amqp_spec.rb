@@ -29,6 +29,7 @@ describe Travis::Config::Heroku, :Amqp do
         vhost:    'vhost',
         username: 'username',
         password: 'password',
+        ssl:      true,
         prefetch: 1
       )
     end
