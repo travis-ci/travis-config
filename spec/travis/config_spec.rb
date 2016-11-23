@@ -70,8 +70,8 @@ describe Travis::Config do
       it { expect(config.logs_database.database).to eq 'keychain' }
     end
 
-    describe 'given logs_database is not defined anywhere it defaults to database' do
-      it { expect(config.logs_database.database).to eq 'database' }
+    describe 'given logs_database is not defined anywhere it does not default to database' do
+      it { expect(config.logs_database).to eq nil }
     end
   end
 end
