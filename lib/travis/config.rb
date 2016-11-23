@@ -18,7 +18,6 @@ module Travis
 
       def load(*names)
         config = load_from(*names)
-        config = normalize(config)
         new(config)
       end
 
@@ -33,11 +32,6 @@ module Travis
         def loaders(*names)
           names = [:files, :env, :heroku, :docker] if names.empty?
           names.map { |name| const_get(camelize(name)).new }
-        end
-
-        def normalize(config)
-          config[:logs_database] = config[:database] if blank?(config[:logs_database])
-          config
         end
     end
 
