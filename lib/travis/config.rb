@@ -16,6 +16,10 @@ module Travis
         @env ||= ENV['ENV'] || ENV['RAILS_ENV'] || ENV['RACK_ENV'] || 'development'
       end
 
+      def env?(name)
+        name.to_s == env
+      end
+
       def load(*names)
         config = load_from(*names)
         new(config)
@@ -37,6 +41,10 @@ module Travis
 
     def env
       self.class.env
+    end
+
+    def env?(name)
+      self.class.env?(name)
     end
   end
 end
