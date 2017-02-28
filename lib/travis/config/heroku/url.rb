@@ -22,7 +22,18 @@ module Travis
             super.reject { |key, value| key == :database }.merge(vhost: vhost)
           end
         end
-        Amqps = Amqp
+
+        # The amqps:// protocol needs to also pass along that it has SSL enabled
+        # for adapters such as march_hare
+        class Amqps < Amqp
+          def ssl
+            true
+          end
+
+          def to_h
+            super.merge(ssl: ssl)
+          end
+        end
 
         class << self
           def parse(url)
