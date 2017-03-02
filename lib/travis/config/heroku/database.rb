@@ -13,6 +13,7 @@ module Travis
           config = compact(Url.parse(url).to_h)
           config = deep_merge(DEFAULTS, config) unless config.empty?
           config[:pool] = pool.to_i if pool
+          config[:prepared_statements] = prepared_statements != 'false' if prepared_statements
           config
         end
 
@@ -24,6 +25,10 @@ module Travis
 
           def pool
             env('DATABASE_POOL_SIZE', 'DB_POOL').compact.first
+          end
+          
+          def prepared_statements
+            env('PGBOUNCER_PREPARED_STATEMENTS').compact.first
           end
 
           def env(*keys)
