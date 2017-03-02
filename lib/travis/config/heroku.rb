@@ -11,6 +11,7 @@ module Travis
         compact(
           database: database,
           logs_database: logs_database,
+          logs_readonly_database: logs_readonly_database,
           amqp: amqp,
           redis: redis,
           memcached: memcached,
@@ -26,6 +27,10 @@ module Travis
 
         def logs_database
           Database.new(prefix: 'logs').config
+        end
+
+        def logs_readonly_database
+          Database.new(prefix: 'logs_readonly').config
         end
 
         def amqp
