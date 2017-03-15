@@ -28,7 +28,7 @@ module Travis
           end
           
           def prepared_statements
-            env('PGBOUNCER_PREPARED_STATEMENTS').compact.first
+            ENV['PGBOUNCER_PREPARED_STATEMENTS']
           end
 
           def env(*keys)
