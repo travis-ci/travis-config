@@ -3,7 +3,7 @@ require 'hashr'
 module Travis
   class Config < Hashr
     require 'travis/config/docker'
-    require 'travis/config/env'
+    require 'travis/config/keychain'
     require 'travis/config/files'
     require 'travis/config/heroku'
 
@@ -30,7 +30,7 @@ module Travis
         end
 
         def loaders(*names)
-          names = [:files, :env, :heroku, :docker] if names.empty?
+          names = [:files, :keychain, :heroku, :docker] if names.empty?
           names.map { |name| const_get(camelize(name)).new }
         end
     end

@@ -1,5 +1,5 @@
 describe Travis::Config do
-  let(:config) { Travis::Test::Config.load(:files, :env, :heroku, :docker) }
+  let(:config) { Travis::Test::Config.load(:files, :keychain, :heroku, :docker) }
 
   describe 'Hashr behaviour' do
     after :each do
