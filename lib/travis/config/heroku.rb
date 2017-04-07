@@ -1,10 +1,10 @@
 require 'travis/config/helpers'
-require 'travis/config/heroku/database'
-require 'travis/config/heroku/memcached'
-
 module Travis
   class Config
-    class Heroku # TODO rename to EnvVar
+    class Heroku < Struct.new(:defaults)
+      require 'travis/config/heroku/database'
+      require 'travis/config/heroku/memcached'
+
       include Helpers
 
       def load

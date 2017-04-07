@@ -3,15 +3,20 @@ ENV['DYNO'] = 'travis-config/specs'
 
 require 'mocha'
 require 'travis/config'
+require 'support/env'
 
 module Travis::Test
   class Config < Travis::Config
-    define amqp: { username: 'guest', password: 'guest', host: 'localhost', prefetch: 1 }
-    define database: { adapter: 'postgresql', database: 'test', encoding: 'unicode' }
+    define amqp:     { username: 'guest', password: 'guest', host: 'localhost', prefetch: 1 },
+           database: { adapter: 'postgresql', database: 'test', encoding: 'unicode' },
+           redis:    { url: 'redis://localhost:6379' }
+
+    Env.prefix :travis
   end
 end
 
-RSpec.configure do |config|
-  config.mock_with :mocha
+RSpec.configure do |c|
+  c.mock_with :mocha
+  c.include Support::Env
 end
 

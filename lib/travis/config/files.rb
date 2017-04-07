@@ -3,7 +3,7 @@ require 'travis/config/helpers'
 
 module Travis
   class Config
-    class Files
+    class Files < Struct.new(:defaults)
       include Helpers
 
       def load
