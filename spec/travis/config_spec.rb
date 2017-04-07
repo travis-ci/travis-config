@@ -24,10 +24,9 @@ describe Travis::Config do
   end
 
   describe 'reads custom config files' do
-    before { Dir.stubs(:[]).returns ['config/travis.yml', 'config/travis/foo.yml', 'config/travis/bar.yml'] }
-    before { YAML.stubs(:load_file).with('config/travis.yml').returns('test' => { 'travis' => 'travis', 'shared' => 'travis' }) }
-    before { YAML.stubs(:load_file).with('config/travis/foo.yml').returns('test' => { 'foo' => 'foo' }) }
-    before { YAML.stubs(:load_file).with('config/travis/bar.yml').returns('test' => { 'bar' => 'bar', 'shared' => 'bar' }) }
+    file 'config/travis.yml',     YAML.dump('test' => { 'travis' => 'travis', 'shared' => 'travis' })
+    file 'config/travis/foo.yml', YAML.dump('test' => { 'foo' => 'foo' })
+    file 'config/travis/bar.yml', YAML.dump('test' => { 'bar' => 'bar', 'shared' => 'bar' })
 
     it { expect(config.travis).to eq('travis') }
     it { expect(config.foo).to eq('foo') }
@@ -44,9 +43,8 @@ describe Travis::Config do
     env DATABASE_URL: 'postgres://username:password@hostname:1234/database'
 
     describe 'given logs_database is defined in a config file' do
-      before { Dir.stubs(:[]).returns ['config/travis.yml'] }
-      before { YAML.stubs(:load_file).with('config/travis.yml').returns('test' => { 'logs_database' => { 'database' => 'config_file' } }) }
-      it { expect(config.logs_database.database).to eq 'config_file' }
+      file 'config/travis.yml', YAML.dump('test' => { 'logs_database' => { 'database' => 'from_file' } })
+      it { expect(config.logs_database.database).to eq 'from_file' }
     end
 
     describe 'given logs_database is defined in the keychain' do

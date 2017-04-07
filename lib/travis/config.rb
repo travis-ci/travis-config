@@ -7,6 +7,7 @@ module Travis
     require 'travis/config/keychain'
     require 'travis/config/files'
     require 'travis/config/heroku'
+    require 'travis/config/serialize/env'
 
     include Hashr::Delegate::Conditional
 

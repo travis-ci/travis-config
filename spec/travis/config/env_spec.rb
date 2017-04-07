@@ -1,17 +1,16 @@
 module Travis::Test::Env
   class Config < Travis::Config
     define database: { adapter: nil, variables: { statement_timeout: nil } },
-           hash:    { under_scored: nil, nested: { foo: nil } },
-           array:   [],
-           integer: nil,
-           float:   nil,
-           true:    nil,
-           yes:     nil,
-           on:      nil,
-           false:   nil,
-           no:      nil,
-           off:     nil,
-           nil:     nil
+           hash:     { under_scored: nil, nested: { foo: nil } },
+           integer:  nil,
+           float:    nil,
+           true:     nil,
+           yes:      nil,
+           on:       nil,
+           false:    nil,
+           no:       nil,
+           off:      nil,
+           nil:      nil
 
 
     Env.prefix :travis
@@ -32,19 +31,19 @@ describe Travis::Config::Env do
         TRAVIS_FALSE: 'false',
         TRAVIS_NO: 'no',
         TRAVIS_OFF: 'off',
-        TRVIS_NIL: nil
+        TRAVIS_NIL: nil
 
     it { expect(config.hash.under_scored).to eq 'under_scored' }
     it { expect(config.hash.nested.foo).to eq 'foo' }
-    it { expect(config.integer).to be 10 }
-    it { expect(config.float).to be 10.0 }
+    it { expect(config.integer).to eq 10 }
+    it { expect(config.float).to eq 10.0 }
     it { expect(config.true).to be true }
     it { expect(config.yes).to be true }
     it { expect(config.on).to be true }
     it { expect(config.false).to be false }
     it { expect(config.no).to be false }
     it { expect(config.off).to be false }
-    it { expect(config.nil).to be nil }
+    it { expect(config.nil).to be_nil }
   end
 
   describe 'database' do
@@ -53,5 +52,39 @@ describe Travis::Config::Env do
 
     it { expect(config.database.adapter).to eq 'postgres' }
     it { expect(config.database.variables.statement_timeout).to eq 10_000 }
+  end
+end
+
+module Travis::Test::Env::Arrays
+  class Config < Travis::Config
+    define hashes_one: [foo: 'foo'],
+           hashes_two: [foo: 1, bar: true],
+           strings:    []
+
+    Env.prefix :travis
+  end
+end
+
+describe Travis::Config::Env, 'arrays' do
+  let(:config) { Travis::Test::Env::Arrays::Config.load(:env) }
+
+  describe 'cast' do
+    env TRAVIS_HASHES_ONE_0_FOO: 'bar',
+        TRAVIS_HASHES_ONE_1_FOO: 'baz',
+        TRAVIS_HASHES_TWO_0_FOO: 1,
+        TRAVIS_HASHES_TWO_0_BAR: 'true',
+        TRAVIS_HASHES_TWO_1_FOO: 1.1,
+        TRAVIS_HASHES_TWO_1_BAR: 'false',
+        TRAVIS_STRINGS: 'foo,bar'
+
+    it { expect(config.hashes_one).to   eq [{ foo: 'bar' }, { foo: 'baz' }] }
+    it { expect(config.hashes_two).to   eq [{ foo: 1, bar: true }, { foo: 1.1, bar: false }] }
+    it { expect(config.strings).to eq ['foo', 'bar'] }
+  end
+
+  describe 'unexpected string' do
+    env TRAVIS_HASHES_ONE: 'foo'
+
+    it { expect { config }.to raise_error(described_class::UnexpectedString) }
   end
 end

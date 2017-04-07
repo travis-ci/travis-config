@@ -4,6 +4,7 @@ ENV['DYNO'] = 'travis-config/specs'
 require 'mocha'
 require 'travis/config'
 require 'support/env'
+require 'support/fakefs'
 
 module Travis::Test
   class Config < Travis::Config
@@ -18,5 +19,6 @@ end
 RSpec.configure do |c|
   c.mock_with :mocha
   c.include Support::Env
+  c.include Support::FakeFs
 end
 

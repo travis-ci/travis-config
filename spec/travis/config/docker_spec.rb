@@ -1,10 +1,8 @@
 describe Travis::Config::Docker do
   let(:config) { Travis::Test::Config.load(:docker) }
-  let(:vars)   { %w(POSTGRESQL_PORT RABBITMQ_PORT REDIS_PORT) }
-  after        { vars.each { |key| ENV.delete(key) } }
 
   describe 'loads POSTGRESQL_PORT to config.database' do
-    before { ENV['POSTGRESQL_PORT'] = 'tcp://172.17.0.11:5432' }
+    env POSTGRESQL_PORT: 'tcp://172.17.0.11:5432'
 
     it 'loads host and port from the env var' do
       expect(config.database.values_at(:host, :port)).to eq(['172.17.0.11', '5432'])
@@ -16,7 +14,7 @@ describe Travis::Config::Docker do
   end
 
   describe 'loads RABBITMQ_PORT to config.amqp' do
-    before { ENV['RABBITMQ_PORT'] = 'tcp://172.17.0.11:5672' }
+    env RABBITMQ_PORT: 'tcp://172.17.0.11:5672'
 
     it 'loads host and port from the env var' do
       expect(config.amqp.values_at(:host, :port)).to eq(['172.17.0.11', '5672'])
@@ -28,7 +26,7 @@ describe Travis::Config::Docker do
   end
 
   describe 'loads REDIS_PORT' do
-    before { ENV['REDIS_PORT'] = 'tcp://172.17.0.7:6379' }
+    env REDIS_PORT: 'tcp://172.17.0.7:6379'
 
     it 'loads the port to redis.url' do
       expect(config.redis.to_h).to eq({ url: 'tcp://172.17.0.7:6379' })

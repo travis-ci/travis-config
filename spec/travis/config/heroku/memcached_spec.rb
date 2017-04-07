@@ -5,8 +5,7 @@ describe Travis::Config::Heroku, :Memcached do
   let(:password) { 'password' }
 
   [:servers, :username, :password].each do |key|
-    before { ENV["MEMCACHED_#{key.to_s.upcase}"] = send(key) }
-    after  { ENV.delete("MEMCACHED_#{key.to_s.upcase}") }
+    env "MEMCACHED_#{key.to_s.upcase}" => -> { send(key) }
   end
 
   it 'loads a MEMCACHED_SERVERS' do
