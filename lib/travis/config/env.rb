@@ -47,7 +47,7 @@ module Travis
             key = key.map(&:upcase).join('_')
             value = env.fetch(key, default)
             raise UnexpectedString.new(key, value) if value.is_a?(String) && hashes?(default)
-            default.is_a?(Array) ? split(value) : cast(value)
+            default.is_a?(Array) ? split(value) : cast(value, default)
           end
 
           def vars(env, keys, default)
@@ -57,7 +57,7 @@ module Travis
             vars.group_by(&:pop).values.map(&:to_h)
           end
 
-          def cast(value)
+          def cast(value, default = nil)
             case value
             when /^[\d]+\.[\d]+$/
               value.to_f
@@ -70,7 +70,7 @@ module Travis
             when ''
               nil
             else
-              value
+              default.is_a?(Symbol) ? value.to_sym : value
             end
           end
 

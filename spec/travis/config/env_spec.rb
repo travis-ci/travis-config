@@ -2,6 +2,7 @@ module Travis::Test::Env
   class Config < Travis::Config
     define database: { adapter: nil, variables: { statement_timeout: nil } },
            hash:     { under_scored: nil, nested: { foo: nil } },
+           symbol:   :foo,
            integer:  nil,
            float:    nil,
            true:     nil,
@@ -20,6 +21,7 @@ describe Travis::Config::Env do
   describe 'cast' do
     env TRAVIS_HASH_UNDER_SCORED: 'under_scored',
         TRAVIS_HASH_NESTED_FOO: 'foo',
+        TRAVIS_SYMBOL: 'bar',
         TRAVIS_INTEGER: '10',
         TRAVIS_FLOAT: '10.0',
         TRAVIS_TRUE: 'true',
@@ -32,6 +34,7 @@ describe Travis::Config::Env do
 
     it { expect(config.hash.under_scored).to eq 'under_scored' }
     it { expect(config.hash.nested.foo).to eq 'foo' }
+    it { expect(config.symbol).to eq :bar }
     it { expect(config.integer).to eq 10 }
     it { expect(config.float).to eq 10.0 }
     it { expect(config.true).to be true }
