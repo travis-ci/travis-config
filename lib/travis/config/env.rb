@@ -85,7 +85,7 @@ module Travis
       end
 
       def self.prefix(prefix = nil)
-        prefix ? @prefix = prefix : @prefix
+        prefix ? @prefix = prefix : @prefix ||= 'travis'
       end
 
       def load

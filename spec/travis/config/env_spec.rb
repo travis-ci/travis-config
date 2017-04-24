@@ -11,9 +11,6 @@ module Travis::Test::Env
            no:       nil,
            off:      nil,
            nil:      nil
-
-
-    Env.prefix :travis
   end
 end
 
