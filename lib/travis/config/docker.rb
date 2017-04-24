@@ -2,7 +2,7 @@ require 'travis/config/helpers'
 
 module Travis
   class Config
-    class Docker
+    class Docker < Struct.new(:defaults)
       include Helpers
 
       PATTERN = %r(tcp://(?<host>[^:]+):?(?<port>.*))

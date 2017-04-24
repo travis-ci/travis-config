@@ -1,12 +1,12 @@
+sudo: false
+dist: trusty
 language: ruby
 
 rvm:
-  - 2.0
   - 2.1
   - 2.2
-  - jruby-19mode
+  - 2.3
+  - 2.4
   - jruby-9
-
-sudo: false
 
 script: bundle exec rspec spec --color --format documentation --require spec_helper

@@ -1,8 +1,7 @@
 describe Travis::Config::Heroku, :Amqp do
   let(:config) { Travis::Test::Config.load(:heroku) }
 
-  before       { ENV['RABBITMQ_URL'] = url }
-  after        { ENV.delete('RABBITMQ_URL') }
+  env RABBITMQ_URL: -> { url }
 
   describe 'using amqp as a protocol' do
     let(:url) { 'amqp://username:password@hostname:1234/vhost' }

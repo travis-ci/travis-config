@@ -4,8 +4,10 @@ module Travis
   class Config < Hashr
     require 'travis/config/docker'
     require 'travis/config/env'
+    require 'travis/config/keychain'
     require 'travis/config/files'
     require 'travis/config/heroku'
+    require 'travis/config/serialize/env'
 
     include Hashr::Delegate::Conditional
 
@@ -30,8 +32,8 @@ module Travis
         end
 
         def loaders(*names)
-          names = [:files, :env, :heroku, :docker] if names.empty?
-          names.map { |name| const_get(camelize(name)).new }
+          names = [:files, :keychain, :heroku, :docker, :env] if names.empty?
+          names.map { |name| const_get(camelize(name)).new(defaults) }
         end
     end
 
