@@ -14,15 +14,16 @@ module Travis
         FALSE = /^(false|no|off)$/
 
         def to_h
-          defaults.deep_merge(hash(ENV, prefix.dup, defaults))
+          hash(ENV, prefix.dup, defaults)
         end
 
         private
 
           def hash(env, prefix, defaults)
-            defaults.inject({}) do |config, (key, default)|
+            hash = defaults.inject({}) do |config, (key, default)|
               config.merge key => obj(env, prefix + [key], default)
             end
+            compact(hash)
           end
 
           def obj(env, keys, default)
@@ -45,7 +46,7 @@ module Travis
 
           def var(env, key, default)
             key = key.map(&:upcase).join('_')
-            value = env.fetch(key, default)
+            value = env[key]
             raise UnexpectedString.new(key, value) if value.is_a?(String) && hashes?(default)
             default.is_a?(Array) ? split(value) : cast(value, default)
           end
@@ -70,7 +71,7 @@ module Travis
             when ''
               nil
             else
-              default.is_a?(Symbol) ? value.to_sym : value
+              value && default.is_a?(Symbol) ? value.to_sym : value
             end
           end
 
@@ -81,6 +82,10 @@ module Travis
 
           def hashes?(obj)
             obj.is_a?(Array) && obj.first.is_a?(Hash)
+          end
+
+          def compact(hash)
+            hash.reject { |_, value| value.nil? }
           end
       end
 

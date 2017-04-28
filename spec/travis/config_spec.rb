@@ -1,5 +1,5 @@
 describe Travis::Config do
-  let(:config) { Travis::Test::Config.load(:files, :keychain, :heroku, :docker) }
+  let(:config) { Travis::Test::Config.load }
 
   describe 'Hashr behaviour' do
     after :each do
@@ -55,5 +55,10 @@ describe Travis::Config do
     describe 'given logs_database is not defined anywhere it does not default to database' do
       it { expect(config.logs_database).to eq nil }
     end
+  end
+
+  describe 'loading from keychain and env' do
+    env travis_config: YAML.dump('redis' => { 'url' => 'redis://url' })
+    it { expect(config.redis.url).to eq 'redis://url' }
   end
 end
