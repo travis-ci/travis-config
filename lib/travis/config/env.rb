@@ -85,7 +85,11 @@ module Travis
           end
 
           def compact(hash)
-            hash.reject { |_, value| value.nil? }
+            hash.reject { |_, value| present?(value) }
+          end
+
+          def present?(value)
+            value.nil? || value.respond_to?(:empty) && value.empty?
           end
       end
 
