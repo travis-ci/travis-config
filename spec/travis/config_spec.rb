@@ -58,7 +58,9 @@ describe Travis::Config do
   end
 
   describe 'loading from keychain and env' do
-    env travis_config: YAML.dump('redis' => { 'url' => 'redis://url' })
+    env travis_config: YAML.dump('redis' => { 'url' => 'redis://url' }, 'queues' => ['queue' => 'from_keychain']),
+        TRAVIS_QUEUES_0_QUEUE: 'from_env'
     it { expect(config.redis.url).to eq 'redis://url' }
+    it { expect(config.queues).to eq [queue: 'from_env'] }
   end
 end

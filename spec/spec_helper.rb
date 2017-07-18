@@ -10,7 +10,8 @@ module Travis::Test
   class Config < Travis::Config
     define amqp:     { username: 'guest', password: 'guest', host: 'localhost', prefetch: 1 },
            database: { adapter: 'postgresql', database: 'test', encoding: 'unicode' },
-           redis:    { url: 'redis://localhost:6379' }
+           redis:    { url: 'redis://localhost:6379' },
+           queues:   [ queue: 'queue' ]
 
     Env.prefix :travis
   end
