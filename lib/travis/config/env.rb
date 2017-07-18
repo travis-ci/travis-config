@@ -89,7 +89,7 @@ module Travis
           end
 
           def present?(value)
-            value.nil? || value.respond_to?(:empty) && value.empty?
+            value.nil? || value.respond_to?(:empty?) && value.empty?
           end
       end
 
