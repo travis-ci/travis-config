@@ -52,7 +52,7 @@ module Travis
           end
 
           def vars(env, keys, default)
-            pattern = /^#{keys.map(&:upcase).join('_')}_([\d]+)_/
+            pattern = /^#{keys.map(&:upcase).join('_')}_([\d]+)_?/
             vars = env.select { |key, _| key =~ pattern }
             vars = vars.map { |key, value| [key.sub(pattern, ''), value, $1] }
             vars.group_by(&:pop).values.map(&:to_h)

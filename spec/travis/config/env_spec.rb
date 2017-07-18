@@ -88,3 +88,27 @@ describe Travis::Config::Env, 'arrays' do
     it { expect { config }.to raise_error(described_class::UnexpectedString) }
   end
 end
+
+module Travis::Test::Env::Queues
+  class Config < Travis::Config
+    define queues: [queue: 'queue', services: ['service']]
+
+    Env.prefix :travis
+  end
+end
+
+describe Travis::Config::Env, 'queues' do
+  let(:defaults) { { queues: [queue: 'queue', services: ['service']] } }
+  let(:config)   { Travis::Config::Env.new(defaults).load }
+
+  describe 'nested array' do
+    env TRAVIS_QUEUES_0_QUEUE: 'one',
+        TRAVIS_QUEUES_0_SERVICES_0: 'docker'
+
+    it { expect(config[:queues][0]).to eq queue: 'one', services: ['docker'] }
+  end
+
+  describe 'does not set empty arrays' do
+    it { expect(config[:queues]).to be_nil }
+  end
+end
