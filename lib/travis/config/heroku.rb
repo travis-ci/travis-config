@@ -58,7 +58,7 @@ module Travis
           ENV['TRAVIS_REDIS_URL'] || ENV['REDIS_URL']
         end
       
-      def redis_pool_size
+        def redis_pool_size
           ENV['TRAVIS_REDIS_POOL_SIZE'] || ENV['REDIS_POOL_SIZE']
         end
 
