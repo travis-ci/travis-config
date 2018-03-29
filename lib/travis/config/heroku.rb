@@ -38,7 +38,7 @@ module Travis
         end
 
         def redis
-          compact(url: redis_url)
+          compact(url: redis_url, pool: { size: redis_pool_size })
         end
 
         def sentry
@@ -56,6 +56,10 @@ module Travis
 
         def redis_url
           ENV['TRAVIS_REDIS_URL'] || ENV['REDIS_URL']
+        end
+      
+        def redis_pool_size
+          ENV['TRAVIS_REDIS_POOL_SIZE'] || ENV['REDIS_POOL_SIZE']
         end
 
         def sentry_dsn

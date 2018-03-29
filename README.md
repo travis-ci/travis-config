@@ -47,7 +47,8 @@ Serveral config sources are supported:
   merged (alpabetically sorted).
 * Env: `ENV['travis_config']` is parsed as YAML and merged, if present.
 * Heroku: The env vars `DATABASE_URL` or `SHARED_DATABASE_URL`, and `DB_POOL`
-  or `DATABASE_POOL_SIZE` are merged into the database config.
+  or `DATABASE_POOL_SIZE`, `REDIS_URL`, and `REDIS_POOL_SIZE` are merged into
+  the database config.
 * Docker: The env vars `POSTGRESQL_PORT`, `RABBITMQ_PORT`, and `REDIS_PORT` are
   interpreted as resource URLs, and merged into the database config.
 
