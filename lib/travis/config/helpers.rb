@@ -24,10 +24,9 @@ module Travis
       def compact(obj)
         case obj
         when Array
-          obj.reject { |obj| blank?(obj) }
+          obj.map { |obj| compact(obj) }.reject { |obj| blank?(obj) }
         when Hash
-          obj.keys.each { |key| obj.delete(key) if blank?(obj[key]) }
-          obj
+          obj.map { |k,v| [k, compact(obj)] }.reject { |k,v| blank?(v) }.to_h
         else
           obj
         end
