@@ -26,7 +26,7 @@ module Travis
         when Array
           obj.map { |obj| compact(obj) }.reject { |obj| blank?(obj) }
         when Hash
-          obj.map { |k,v| [k, compact(obj)] }.reject { |k,v| blank?(v) }.to_h
+          obj.map { |k,v| [k, compact(v)] }.reject { |k,v| blank?(v) }.to_h
         else
           obj
         end
