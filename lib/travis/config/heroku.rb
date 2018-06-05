@@ -50,8 +50,7 @@ module Travis
         end
 
         def amqp_url
-          # rabbitmq-bigwig add-ons can only be attached as RABBITMQ_BIGWIG
-          ENV['TRAVIS_RABBITMQ_URL'] || ENV['RABBITMQ_URL'] || ENV['RABBITMQ_BIGWIG_URL']
+          ENV['TRAVIS_RABBITMQ_URL'] || ENV['RABBITMQ_URL'] || ENV['CLOUDAMQP_URL'] || ENV['RABBITMQ_BIGWIG_URL']
         end
 
         def redis_url
