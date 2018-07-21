@@ -22,7 +22,7 @@ module Travis
         end
 
         def redis
-          { url: ENV['REDIS_PORT'] } if ENV['REDIS_PORT']
+          { url: ENV['REDIS_PORT'].sub(%r(\Atcp(?=://)), 'redis') } if ENV['REDIS_PORT']
         end
 
         def parse(url)
