@@ -219,4 +219,10 @@ describe Travis::Config::Heroku, :Database do
   describe 'sets logs_database to nil if no LOGS_DATABASE_URL is given' do
     it { expect(config.logs_database).to be_nil }
   end
+
+  describe 'does not overwrite variables given as defaults' do
+    before { Travis::Test::Config.defaults[:database][:variables] = { statement_timeout: 1 } }
+    env TRAVIS_DATABASE_URL: 'postgres://username:password@hostname:1234/database'
+    it { expect(config.database.variables.statement_timeout).to eq 1 }
+  end
 end
