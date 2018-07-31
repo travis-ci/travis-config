@@ -3,7 +3,7 @@ require 'travis/config/heroku/url'
 module Travis
   class Config
     class Heroku
-      class Database < Struct.new(:options)
+      class Database < Struct.new(:defaults, :options)
         include Helpers
 
         VARIABLES = { application_name: ENV['DYNO'] || $0, statement_timeout: 10_000 }
@@ -11,7 +11,7 @@ module Travis
 
         def config
           config = compact(Url.parse(url).to_h)
-          config = deep_merge(DEFAULTS, config) unless config.empty?
+          config = deep_merge(deep_merge(DEFAULTS, defaults), config) unless config.empty?
           config[:pool] = pool.to_i if pool
           config[:prepared_statements] = prepared_statements != 'false' if prepared_statements
           config
@@ -26,7 +26,7 @@ module Travis
           def pool
             env('DATABASE_POOL_SIZE', 'DB_POOL').compact.first
           end
-          
+
           def prepared_statements
             ENV['PGBOUNCER_PREPARED_STATEMENTS']
           end

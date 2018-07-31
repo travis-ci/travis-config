@@ -22,15 +22,15 @@ module Travis
       private
 
         def database
-          Database.new.config
+          Database.new(db_defaults).config
         end
 
         def logs_database
-          Database.new(prefix: 'logs').config
+          Database.new(db_defaults, prefix: 'logs').config
         end
 
         def logs_readonly_database
-          Database.new(prefix: 'logs_readonly').config
+          Database.new(db_defaults, prefix: 'logs_readonly').config
         end
 
         def amqp
@@ -49,6 +49,10 @@ module Travis
           Memcached.new.config
         end
 
+        def db_defaults
+          defaults[:database] || {}
+        end
+
         def amqp_url
           ENV['TRAVIS_RABBITMQ_URL'] || ENV['RABBITMQ_URL'] || ENV['CLOUDAMQP_URL'] || ENV['RABBITMQ_BIGWIG_URL']
         end
@@ -56,7 +60,7 @@ module Travis
         def redis_url
           ENV['TRAVIS_REDIS_URL'] || ENV['REDIS_URL']
         end
-      
+
         def redis_pool_size
           ENV['TRAVIS_REDIS_POOL_SIZE'] || ENV['REDIS_POOL_SIZE']
         end
