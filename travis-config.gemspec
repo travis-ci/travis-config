@@ -1,22 +1,23 @@
-# encoding: utf-8
-
-$:.unshift File.expand_path('../lib', __FILE__)
+$LOAD_PATH.unshift File.expand_path('lib', __dir__)
 require 'travis/config/version'
 
 Gem::Specification.new do |s|
-  s.name         = "travis-config"
-  s.version      = TravisConfig::VERSION
-  s.authors      = ["Travis CI"]
-  s.email        = "contact@travis-ci.org"
-  s.homepage     = "https://github.com/travis-ci/travis-config"
-  s.summary      = "Travis CI config"
-  s.description  = "#{s.summary}."
-  s.license      = "MIT"
-
-  s.files        = Dir['{lib/**/*,spec/**/*,[A-Z]*}']
   s.platform     = Gem::Platform::RUBY
-  s.require_path = 'lib'
-  s.rubyforge_project = '[none]'
+  s.name         = 'travis-config'
+  s.version      = TravisConfig::VERSION
+  s.summary      = 'Travis CI config'
+  s.description  = "#{s.summary}."
 
-  s.add_dependency 'hashr', '~> 2.0'
+  s.authors      = ['Travis CI']
+  s.email        = 'contact@travis-ci.org'
+  s.homepage     = 'https://github.com/travis-ci/travis-config'
+
+  s.license      = 'MIT'
+
+  s.files        = Dir['LICENSE', 'README.md', 'lib/**/*']
+  s.require_path = 'lib'
+
+  s.required_ruby_version = '>= 3.2.0'
+
+  s.add_runtime_dependency 'hashr', '~> 2.0'
 end

@@ -1,17 +1,17 @@
 module Travis::Test::Env
   class Config < Travis::Config
     define database: { adapter: nil, variables: { statement_timeout: nil } },
-           hash:     { under_scored: nil, nested: { foo: nil } },
-           symbol:   :foo,
-           integer:  nil,
-           float:    nil,
-           true:     nil,
-           yes:      nil,
-           on:       nil,
-           false:    nil,
-           no:       nil,
-           off:      nil,
-           nil:      nil
+           hash: { under_scored: nil, nested: { foo: nil } },
+           symbol: :foo,
+           integer: nil,
+           float: nil,
+           true: nil,
+           yes: nil,
+           on: nil,
+           false: nil,
+           no: nil,
+           off: nil,
+           nil: nil
   end
 end
 
@@ -59,7 +59,7 @@ module Travis::Test::Env::Arrays
   class Config < Travis::Config
     define hashes_one: [foo: 'foo'],
            hashes_two: [foo: 1, bar: true],
-           strings:    []
+           strings: []
 
     Env.prefix :travis
   end
@@ -77,9 +77,9 @@ describe Travis::Config::Env, 'arrays' do
         TRAVIS_HASHES_TWO_1_BAR: 'false',
         TRAVIS_STRINGS: 'foo,bar'
 
-    it { expect(config.hashes_one).to   eq [{ foo: 'bar' }, { foo: 'baz' }] }
-    it { expect(config.hashes_two).to   eq [{ foo: 1, bar: true }, { foo: 1.1, bar: false }] }
-    it { expect(config.strings).to eq ['foo', 'bar'] }
+    it { expect(config.hashes_one).to eq [{ foo: 'bar' }, { foo: 'baz' }] }
+    it { expect(config.hashes_two).to eq [{ foo: 1, bar: true }, { foo: 1.1, bar: false }] }
+    it { expect(config.strings).to eq %w[foo bar] }
   end
 
   describe 'unexpected string' do
@@ -99,7 +99,7 @@ end
 
 describe Travis::Config::Env, 'queues' do
   let(:defaults) { { queues: [queue: 'queue', services: ['service']] } }
-  let(:config)   { Travis::Config::Env.new(defaults).load }
+  let(:config) { described_class.new(defaults).load }
 
   describe 'nested array' do
     env TRAVIS_QUEUES_0_QUEUE: 'one',

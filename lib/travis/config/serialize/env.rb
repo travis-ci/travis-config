@@ -5,6 +5,8 @@ module Travis
         attr_reader :config, :opts
 
         def initialize(config, opts = {})
+          super
+
           @config = config
           @opts = opts
         end
@@ -15,30 +17,30 @@ module Travis
 
         private
 
-          def vars
-            collect(Array(prefix), config).map do |keys, value|
-              [keys.map(&:to_s).map(&:upcase).join('_'), value.to_s]
-            end.to_h
+        def vars
+          collect(Array(prefix), config).to_h do |keys, value|
+            [keys.map(&:to_s).map(&:upcase).join('_'), value.to_s]
           end
+        end
 
-          def collect(keys, config)
-            compact(config).inject({}) do |result, (key, value)|
-              case value
-              when Hash
-                result.merge collect(keys + [key], value)
-              else
-                result.merge [[keys + [key], value]].to_h
-              end
+        def collect(keys, config)
+          compact(config).inject({}) do |result, (key, value)|
+            case value
+            when Hash
+              result.merge collect(keys + [key], value)
+            else
+              result.merge [[keys + [key], value]].to_h
             end
           end
+        end
 
-          def compact(hash)
-            hash.reject { |_, value| value.nil? }.to_h
-          end
+        def compact(hash)
+          hash.compact.to_h
+        end
 
-          def prefix
-            opts[:prefix]
-          end
+        def prefix
+          opts[:prefix]
+        end
       end
     end
   end

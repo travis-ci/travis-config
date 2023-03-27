@@ -6,20 +6,20 @@ module Travis
       module Url
         class Base < Struct.new(:username, :password, :host, :port, :database)
           def to_h
-            Hash[each_pair.to_a]
+            each_pair.to_a.to_h
           end
         end
 
-        Generic  = Class.new(Base)
+        Generic = Class.new(Base)
         Postgres = Class.new(Base)
-        Redis    = Class.new(Base)
-        Mock     = Class.new(Base) # e.g. mock:// used for Sequel::Mock
+        Redis = Class.new(Base)
+        Mock = Class.new(Base) # e.g. mock:// used for Sequel::Mock
 
         class Amqp < Base
-          alias :vhost :database
+          alias vhost database
 
           def to_h
-            super.reject { |key, value| key == :database }.merge(vhost: vhost)
+            super.except(:database).merge(vhost:)
           end
         end
 
@@ -31,16 +31,17 @@ module Travis
           end
 
           def to_h
-            super.merge(ssl: ssl)
+            super.merge(ssl:)
           end
         end
 
         class << self
           def parse(url)
             return Generic.new if url.nil? || url.empty?
-            uri   = URI.parse(url)
+
+            uri = URI.parse(url)
             const = const_get(camelize(uri.scheme))
-            const.new(uri.user, uri.password, uri.host, uri.port, uri.path[1..-1])
+            const.new(uri.user, uri.password, uri.host, uri.port, uri.path[1..])
           end
 
           def camelize(string)

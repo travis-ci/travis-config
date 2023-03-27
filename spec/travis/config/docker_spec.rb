@@ -9,7 +9,7 @@ describe Travis::Config::Docker do
     end
 
     it 'keeps adapter, database, encoding from the regular config' do
-      expect(config.database.values_at(:adapter, :database, :encoding)).to eq(['postgresql', 'test', 'unicode'])
+      expect(config.database.values_at(:adapter, :database, :encoding)).to eq(%w[postgresql test unicode])
     end
   end
 
