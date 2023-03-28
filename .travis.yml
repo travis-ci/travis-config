@@ -1,12 +1,10 @@
-sudo: false
-dist: trusty
+dist: focal
+
 language: ruby
-
 rvm:
-  - 2.1
-  - 2.2
-  - 2.3
   - 2.4
-  - jruby-9
+  - 2.5
+  - 2.6
+  - 2.7
 
-script: bundle exec rspec spec --color --format documentation --require spec_helper
+script: bundle exec rspec
