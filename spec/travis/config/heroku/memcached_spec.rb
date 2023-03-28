@@ -4,7 +4,7 @@ describe Travis::Config::Heroku, :Memcached do
   let(:username) { 'username' }
   let(:password) { 'password' }
 
-  [:servers, :username, :password].each do |key|
+  %i[servers username password].each do |key|
     env "MEMCACHED_#{key.to_s.upcase}" => -> { send(key) }
   end
 

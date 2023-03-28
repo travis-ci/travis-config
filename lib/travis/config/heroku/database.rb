@@ -6,8 +6,8 @@ module Travis
       class Database < Struct.new(:options)
         include Helpers
 
-        VARIABLES = { application_name: ENV['DYNO'] || $0, statement_timeout: 10_000 }
-        DEFAULTS = { adapter: 'postgresql', encoding: 'unicode', variables: VARIABLES }
+        VARIABLES = { application_name: ENV['DYNO'] || $PROGRAM_NAME, statement_timeout: 10_000 }.freeze
+        DEFAULTS = { adapter: 'postgresql', encoding: 'unicode', variables: VARIABLES }.freeze
 
         def config
           config = compact(Url.parse(url).to_h)

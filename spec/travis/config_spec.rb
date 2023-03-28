@@ -2,22 +2,22 @@ describe Travis::Config do
   let(:config) { Travis::Test::Config.load }
 
   describe 'Hashr behaviour' do
-    after :each do
+    after do
       ENV.delete('travis_config')
     end
 
-    it { expect(config).to be_kind_of(Hashr) }
+    it { expect(config).to be_a(Hashr) }
 
     describe 'returns Hashr instances on subkeys' do
       before { ENV['travis_config'] = YAML.dump('redis' => { 'url' => 'redis://localhost:6379' }) }
 
-      it { expect(config.redis).to be_kind_of(Hashr) }
+      it { expect(config.redis).to be_a(Hashr) }
     end
 
     describe 'returns Hashr instances on subkeys that were set to Ruby Hashes' do
-      before { config.foo = { :bar => { :baz => 'baz' } } }
+      before { config.foo = { bar: { baz: 'baz' } } }
 
-      it { expect(config.foo.bar).to be_kind_of(Hashr) }
+      it { expect(config.foo.bar).to be_a(Hashr) }
     end
 
     describe 'can access nested keys' do
@@ -37,7 +37,7 @@ describe Travis::Config do
   end
 
   describe 'deep symbolizes arrays, too' do
-    let(:config) { Travis::Config.new('queues' => [{ 'slug' => 'rails/rails', 'queue' => 'rails' }]) }
+    let(:config) { described_class.new('queues' => [{ 'slug' => 'rails/rails', 'queue' => 'rails' }]) }
 
     it { expect(config.queues.first.values_at(:slug, :queue)).to eq(['rails/rails', 'rails']) }
   end
@@ -58,7 +58,7 @@ describe Travis::Config do
     end
 
     describe 'given logs_database is not defined anywhere it does not default to database' do
-      it { expect(config.logs_database).to eq nil }
+      it { expect(config.logs_database).to be_nil }
     end
   end
 

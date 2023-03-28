@@ -2,7 +2,7 @@ describe Travis::Config::Files do
   let(:config) { Travis::Test::Config.load(:files) }
 
   describe 'reads custom config files' do
-    before :each do
+    before do
       Dir.stubs(:[]).returns ['config/travis.yml', 'config/travis/foo.yml', 'config/travis/bar.yml']
       YAML.stubs(:load_file).with('config/travis.yml').returns('test' => { 'travis' => 'travis', 'shared' => 'travis' })
       YAML.stubs(:load_file).with('config/travis/foo.yml').returns('test' => { 'foo' => 'foo' })
@@ -25,6 +25,7 @@ describe Travis::Config::Files do
 
   it 'deep symbolizes arrays, too' do
     config = Travis::Config.new('queues' => [{ 'slug' => 'rails/rails', 'queue' => 'rails' }])
+
     expect(config.queues.first.values_at(:slug, :queue)).to eq(['rails/rails', 'rails'])
   end
 end

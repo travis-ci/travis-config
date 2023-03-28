@@ -2,7 +2,7 @@ module Travis
   class Config
     class Env < Struct.new(:defaults)
       class UnexpectedString < ArgumentError
-        MSG = 'Expected %s to be an array of hashes, but it is a string: %s'
+        MSG = 'Expected %s to be an array of hashes, but it is a string: %s'.freeze
 
         def initialize(*args)
           super(MSG % args)
@@ -10,8 +10,8 @@ module Travis
       end
 
       class Vars < Struct.new(:defaults, :prefix)
-        TRUE = /^(true|yes|on)$/
-        FALSE = /^(false|no|off)$/
+        TRUE_REGEXP = /^(true|yes|on)$/.freeze
+        FALSE_REGEXP = /^(false|no|off)$/.freeze
 
         def to_h
           hash(ENV, prefix.dup, defaults)
@@ -52,22 +52,22 @@ module Travis
           default.is_a?(Array) ? split(value) : cast(value, default)
         end
 
-        def vars(env, keys, default)
-          pattern = /^#{keys.map(&:upcase).join('_')}_([\d]+)_?/
+        def vars(env, keys, _default)
+          pattern = /^#{keys.map(&:upcase).join('_')}_(\d+)_?/
           vars = env.select { |key, _| key =~ pattern }
-          vars = vars.map { |key, value| [key.sub(pattern, ''), value, $1] }
+          vars = vars.map { |key, value| [key.sub(pattern, ''), value, ::Regexp.last_match(1)] }
           vars.group_by(&:pop).values.map(&:to_h)
         end
 
         def cast(value, default = nil)
           case value
-          when /^[\d]+\.[\d]+$/
+          when /^\d+\.\d+$/
             value.to_f
-          when /^[\d]+$/
+          when /^\d+$/
             value.to_i
-          when TRUE
+          when TRUE_REGEXP
             true
-          when FALSE
+          when FALSE_REGEXP
             false
           when ''
             nil
@@ -90,7 +90,7 @@ module Travis
         end
 
         def present?(value)
-          value.nil? || value.respond_to?(:empty?) && value.empty?
+          value.nil? || (value.respond_to?(:empty?) && value.empty?)
         end
       end
 
