@@ -24,28 +24,28 @@ module Travis
 
       private
 
-        def load_file(filename)
-          YAML.load_file(filename) || {}
-        rescue => e
-          puts "Could not parse file #{filename} (#{e.message})"
-          {}
-        end
+      def load_file(filename)
+        YAML.load_file(filename) || {}
+      rescue => e
+        puts "Could not parse file #{filename} (#{e.message})"
+        {}
+      end
 
-        def warn_empty(filename)
-          puts MSGS[:empty] % { filename: filename, env: env }
-        end
+      def warn_empty(filename)
+        puts MSGS[:empty] % { filename: filename, env: env }
+      end
 
-        def warn_empty?
-          !%w(production test).include?(Config.env)
-        end
+      def warn_empty?
+        !%w(production test).include?(Config.env)
+      end
 
-        def filenames
-          @filenames ||= Dir['config/travis.yml'] + Dir['config/travis/*.yml'].sort
-        end
+      def filenames
+        @filenames ||= Dir['config/travis.yml'] + Dir['config/travis/*.yml'].sort
+      end
 
-        def env
-          Config.env
-        end
+      def env
+        Config.env
+      end
     end
   end
 end

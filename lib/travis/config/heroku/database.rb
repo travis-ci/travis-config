@@ -7,7 +7,7 @@ module Travis
         include Helpers
 
         VARIABLES = { application_name: ENV['DYNO'] || $0, statement_timeout: 10_000 }
-        DEFAULTS  = { adapter: 'postgresql', encoding: 'unicode', variables: VARIABLES }
+        DEFAULTS = { adapter: 'postgresql', encoding: 'unicode', variables: VARIABLES }
 
         def config
           config = compact(Url.parse(url).to_h)
@@ -19,30 +19,30 @@ module Travis
 
         private
 
-          def url
-            env('DATABASE_URL').compact.first
-          end
+        def url
+          env('DATABASE_URL').compact.first
+        end
 
-          def pool
-            env('DATABASE_POOL_SIZE', 'DB_POOL').compact.first
-          end
-          
-          def prepared_statements
-            ENV['PGBOUNCER_PREPARED_STATEMENTS']
-          end
+        def pool
+          env('DATABASE_POOL_SIZE', 'DB_POOL').compact.first
+        end
 
-          def env(*keys)
-            ENV.values_at(*keys.map { |key| prefix(key) }.flatten)
-          end
+        def prepared_statements
+          ENV['PGBOUNCER_PREPARED_STATEMENTS']
+        end
 
-          def prefix(key)
-            key = [options[:prefix], key].compact.join('_').upcase
-            ["TRAVIS_#{key}", key]
-          end
+        def env(*keys)
+          ENV.values_at(*keys.map { |key| prefix(key) }.flatten)
+        end
 
-          def options
-            super || {}
-          end
+        def prefix(key)
+          key = [options[:prefix], key].compact.join('_').upcase
+          ["TRAVIS_#{key}", key]
+        end
+
+        def options
+          super || {}
+        end
       end
     end
   end

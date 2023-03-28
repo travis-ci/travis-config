@@ -10,10 +10,10 @@ module Travis
           end
         end
 
-        Generic  = Class.new(Base)
+        Generic = Class.new(Base)
         Postgres = Class.new(Base)
-        Redis    = Class.new(Base)
-        Mock     = Class.new(Base) # e.g. mock:// used for Sequel::Mock
+        Redis = Class.new(Base)
+        Mock = Class.new(Base) # e.g. mock:// used for Sequel::Mock
 
         class Amqp < Base
           alias :vhost :database
@@ -38,7 +38,8 @@ module Travis
         class << self
           def parse(url)
             return Generic.new if url.nil? || url.empty?
-            uri   = URI.parse(url)
+
+            uri = URI.parse(url)
             const = const_get(camelize(uri.scheme))
             const.new(uri.user, uri.password, uri.host, uri.port, uri.path[1..-1])
           end

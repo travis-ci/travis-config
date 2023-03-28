@@ -1,6 +1,6 @@
 describe Travis::Config::Heroku, :Memcached do
-  let(:config)   { Travis::Test::Config.load(:heroku) }
-  let(:servers)  { 'hostname:1234' }
+  let(:config) { Travis::Test::Config.load(:heroku) }
+  let(:servers) { 'hostname:1234' }
   let(:username) { 'username' }
   let(:password) { 'password' }
 
@@ -16,7 +16,7 @@ describe Travis::Config::Heroku, :Memcached do
     expect(config.memcached.options.username).to eq(username)
   end
 
-  it 'loads a MEMCACHED_SERVERS' do
+  it 'loads a MEMCACHED_PASSWORD' do
     expect(config.memcached.options.password).to eq(password)
   end
 end

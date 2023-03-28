@@ -10,21 +10,21 @@ module Travis
 
         private
 
-          def servers
-            ENV['MEMCACHED_SERVERS']
-          end
+        def servers
+          ENV['MEMCACHED_SERVERS']
+        end
 
-          def options
-            { username: username, password: password }
-          end
+        def options
+          { username: username, password: password }
+        end
 
-          def username
-            ENV['MEMCACHED_USERNAME']
-          end
+        def username
+          ENV['MEMCACHED_USERNAME']
+        end
 
-          def password
-            ENV['MEMCACHED_PASSWORD']
-          end
+        def password
+          ENV['MEMCACHED_PASSWORD']
+        end
       end
     end
   end

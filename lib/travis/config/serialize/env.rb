@@ -15,30 +15,30 @@ module Travis
 
         private
 
-          def vars
-            collect(Array(prefix), config).map do |keys, value|
-              [keys.map(&:to_s).map(&:upcase).join('_'), value.to_s]
-            end.to_h
-          end
+        def vars
+          collect(Array(prefix), config).map do |keys, value|
+            [keys.map(&:to_s).map(&:upcase).join('_'), value.to_s]
+          end.to_h
+        end
 
-          def collect(keys, config)
-            compact(config).inject({}) do |result, (key, value)|
-              case value
-              when Hash
-                result.merge collect(keys + [key], value)
-              else
-                result.merge [[keys + [key], value]].to_h
-              end
+        def collect(keys, config)
+          compact(config).inject({}) do |result, (key, value)|
+            case value
+            when Hash
+              result.merge collect(keys + [key], value)
+            else
+              result.merge [[keys + [key], value]].to_h
             end
           end
+        end
 
-          def compact(hash)
-            hash.reject { |_, value| value.nil? }.to_h
-          end
+        def compact(hash)
+          hash.reject { |_, value| value.nil? }.to_h
+        end
 
-          def prefix
-            opts[:prefix]
-          end
+        def prefix
+          opts[:prefix]
+        end
       end
     end
   end

@@ -8,9 +8,9 @@ describe Travis::Config::Heroku, :Amqp do
 
     it 'loads a RABBITMQ_URL' do
       expect(config.amqp.to_h).to eq(
-        host:     'hostname',
-        port:     1234,
-        vhost:    'vhost',
+        host: 'hostname',
+        port: 1234,
+        vhost: 'vhost',
         username: 'username',
         password: 'password',
         prefetch: 1
@@ -23,12 +23,12 @@ describe Travis::Config::Heroku, :Amqp do
 
     it 'loads a RABBITMQ_URL' do
       expect(config.amqp.to_h).to eq(
-        host:     'hostname',
-        port:     1234,
-        vhost:    'vhost',
+        host: 'hostname',
+        port: 1234,
+        vhost: 'vhost',
         username: 'username',
         password: 'password',
-        ssl:      true,
+        ssl: true,
         prefetch: 1
       )
     end

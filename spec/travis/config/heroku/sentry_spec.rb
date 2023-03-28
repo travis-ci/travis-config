@@ -1,6 +1,6 @@
 describe Travis::Config::Heroku, :Sentry do
   let(:config) { Travis::Test::Config.load(:heroku) }
-  let(:dsn)    { 'http://foo:bar@app.getsentry.com/1' }
+  let(:dsn) { 'http://foo:bar@app.getsentry.com/1' }
 
   describe 'loads a SENTRY_DSN' do
     env SENTRY_DSN: -> { dsn }

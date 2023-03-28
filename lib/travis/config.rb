@@ -25,16 +25,16 @@ module Travis
 
       private
 
-        def load_from(*names)
-          loaders(*names).inject({}) do |data, loader|
-            deep_merge(data, deep_symbolize_keys(loader.load))
-          end
+      def load_from(*names)
+        loaders(*names).inject({}) do |data, loader|
+          deep_merge(data, deep_symbolize_keys(loader.load))
         end
+      end
 
-        def loaders(*names)
-          names = [:files, :keychain, :heroku, :docker, :env] if names.empty?
-          names.map { |name| const_get(camelize(name)).new(defaults) }
-        end
+      def loaders(*names)
+        names = [:files, :keychain, :heroku, :docker, :env] if names.empty?
+        names.map { |name| const_get(camelize(name)).new(defaults) }
+      end
     end
 
     def env

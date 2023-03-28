@@ -23,7 +23,6 @@ describe Travis::Config::Files do
     end
   end
 
-
   it 'deep symbolizes arrays, too' do
     config = Travis::Config.new('queues' => [{ 'slug' => 'rails/rails', 'queue' => 'rails' }])
     expect(config.queues.first.values_at(:slug, :queue)).to eq(['rails/rails', 'rails'])

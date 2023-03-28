@@ -5,13 +5,13 @@ module Travis
         hash.inject({}) do |result, (key, value)|
           key = key.to_sym if key.respond_to?(:to_sym)
           result[key] = case value
-          when Array
-            value.map { |value| value.is_a?(Hash) ? value.deep_symbolize_keys : value }
-          when Hash
-            value.deep_symbolize_keys
-          else
-            value
-          end
+                        when Array
+                          value.map { |value| value.is_a?(Hash) ? value.deep_symbolize_keys : value }
+                        when Hash
+                          value.deep_symbolize_keys
+                        else
+                          value
+                        end
           result
         end
       end
@@ -24,9 +24,9 @@ module Travis
       def compact(obj)
         case obj
         when Array
-          obj.map { |obj| compact(obj) }.reject { |obj| blank?(obj) }
+          obj.map { |o| compact(o) }.reject { |o| blank?(o) }
         when Hash
-          obj.map { |k,v| [k, compact(v)] }.reject { |k,v| blank?(v) }.to_h
+          obj.map { |k, v| [k, compact(v)] }.reject { |k, v| blank?(v) }.to_h
         else
           obj
         end
@@ -37,10 +37,10 @@ module Travis
       end
 
       def camelize(string)
-        string.to_s.
-          sub(/^[a-z\d]*/) { $&.capitalize }.
-          gsub(/(?:_|(\/))([a-z\d]*)/i) { "#{$1}#{$2.capitalize}" }.
-          gsub('/', '::')
+        string.to_s
+              .sub(/^[a-z\d]*/) { $&.capitalize }
+              .gsub(/(?:_|(\/))([a-z\d]*)/i) { "#{$1}#{$2.capitalize}" }
+              .gsub('/', '::')
       end
     end
   end

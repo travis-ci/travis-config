@@ -1,4 +1,4 @@
-ENV['ENV']  = 'test'
+ENV['ENV'] = 'test'
 ENV['DYNO'] = 'travis-config/specs'
 
 require 'mocha'
@@ -8,10 +8,10 @@ require 'support/fakefs'
 
 module Travis::Test
   class Config < Travis::Config
-    define amqp:     { username: 'guest', password: 'guest', host: 'localhost', prefetch: 1 },
+    define amqp: { username: 'guest', password: 'guest', host: 'localhost', prefetch: 1 },
            database: { adapter: 'postgresql', database: 'test', encoding: 'unicode' },
-           redis:    { url: 'redis://localhost:6379' },
-           queues:   [ queue: 'queue' ]
+           redis: { url: 'redis://localhost:6379' },
+           queues: [queue: 'queue']
 
     Env.prefix :travis
   end
@@ -22,4 +22,3 @@ RSpec.configure do |c|
   c.include Support::Env
   c.include Support::FakeFs
 end
-

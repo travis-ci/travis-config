@@ -1,6 +1,6 @@
 describe Travis::Config::Heroku, :Redis do
   let(:config) { Travis::Test::Config.load(:heroku) }
-  let(:url)    { 'redis://username:password@hostname:1234/database' }
+  let(:url) { 'redis://username:password@hostname:1234/database' }
 
   env REDIS_URL: -> { url }
 
