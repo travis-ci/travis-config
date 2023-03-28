@@ -6,7 +6,7 @@ module Travis
       module Url
         class Base < Struct.new(:username, :password, :host, :port, :database)
           def to_h
-            Hash[each_pair.to_a]
+            each_pair.to_a.to_h
           end
         end
 
@@ -16,10 +16,10 @@ module Travis
         Mock = Class.new(Base) # e.g. mock:// used for Sequel::Mock
 
         class Amqp < Base
-          alias :vhost :database
+          alias vhost database
 
           def to_h
-            super.reject { |key, value| key == :database }.merge(vhost: vhost)
+            super.reject { |key, _value| key == :database }.merge(vhost: vhost)
           end
         end
 

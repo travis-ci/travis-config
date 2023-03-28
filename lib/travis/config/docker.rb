@@ -5,7 +5,7 @@ module Travis
     class Docker < Struct.new(:defaults)
       include Helpers
 
-      PATTERN = %r(tcp://(?<host>[^:]+):?(?<port>.*))
+      PATTERN = %r{tcp://(?<host>[^:]+):?(?<port>.*)}.freeze
 
       def load
         compact(redis: redis, database: database, amqp: amqp)
@@ -27,7 +27,7 @@ module Travis
 
       def parse(url)
         matches = PATTERN.match(url.to_s)
-        compact(Hash[matches.names.zip(matches.captures)]) if matches
+        compact(matches.names.zip(matches.captures).to_h) if matches
       end
     end
   end

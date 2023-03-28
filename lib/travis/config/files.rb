@@ -7,12 +7,12 @@ module Travis
       include Helpers
 
       MSGS = {
-        empty: <<-msg.split("\n").map(&:strip).join("\n")
+        empty: <<-MSG.split("\n").map(&:strip).join("\n")
           Warning: config in %{filename} has no data for current env %{env}.
           If you are expecting config to be loaded from this file, please make sure
           your config is indented under a key of the environment (%{env}).
-        msg
-      }
+        MSG
+      }.freeze
 
       def load
         filenames.inject({}) do |result, filename|
@@ -36,7 +36,7 @@ module Travis
       end
 
       def warn_empty?
-        !%w(production test).include?(Config.env)
+        !%w[production test].include?(Config.env)
       end
 
       def filenames

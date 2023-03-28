@@ -5,6 +5,8 @@ module Travis
         attr_reader :config, :opts
 
         def initialize(config, opts = {})
+          super
+
           @config = config
           @opts = opts
         end
@@ -33,7 +35,7 @@ module Travis
         end
 
         def compact(hash)
-          hash.reject { |_, value| value.nil? }.to_h
+          hash.compact.to_h
         end
 
         def prefix

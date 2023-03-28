@@ -79,7 +79,7 @@ describe Travis::Config::Env, 'arrays' do
 
     it { expect(config.hashes_one).to eq [{ foo: 'bar' }, { foo: 'baz' }] }
     it { expect(config.hashes_two).to eq [{ foo: 1, bar: true }, { foo: 1.1, bar: false }] }
-    it { expect(config.strings).to eq ['foo', 'bar'] }
+    it { expect(config.strings).to eq %w[foo bar] }
   end
 
   describe 'unexpected string' do
@@ -99,7 +99,7 @@ end
 
 describe Travis::Config::Env, 'queues' do
   let(:defaults) { { queues: [queue: 'queue', services: ['service']] } }
-  let(:config) { Travis::Config::Env.new(defaults).load }
+  let(:config) { described_class.new(defaults).load }
 
   describe 'nested array' do
     env TRAVIS_QUEUES_0_QUEUE: 'one',
