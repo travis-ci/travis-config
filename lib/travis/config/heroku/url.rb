@@ -19,7 +19,7 @@ module Travis
           alias vhost database
 
           def to_h
-            super.reject { |key, _value| key == :database }.merge(vhost: vhost)
+            super.except(:database).merge(vhost: vhost)
           end
         end
 
@@ -41,7 +41,7 @@ module Travis
 
             uri = URI.parse(url)
             const = const_get(camelize(uri.scheme))
-            const.new(uri.user, uri.password, uri.host, uri.port, uri.path[1..-1])
+            const.new(uri.user, uri.password, uri.host, uri.port, uri.path[1..])
           end
 
           def camelize(string)

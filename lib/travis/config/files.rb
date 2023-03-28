@@ -40,7 +40,7 @@ module Travis
       end
 
       def filenames
-        @filenames ||= Dir['config/travis.yml'] + Dir['config/travis/*.yml'].sort
+        @filenames ||= Dir['config/travis.yml'] + Dir['config/travis/*.yml']
       end
 
       def env
