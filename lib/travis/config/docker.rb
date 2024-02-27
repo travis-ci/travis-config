@@ -5,7 +5,7 @@ module Travis
     class Docker < Struct.new(:defaults)
       include Helpers
 
-      PATTERN = %r{tcp://(?<host>[^:]+):?(?<port>.*)}.freeze
+      PATTERN = %r{tcp://(?<host>[^:]+):?(?<port>.*)}
 
       def load
         compact(redis: redis, database: database, amqp: amqp)

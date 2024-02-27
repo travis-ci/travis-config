@@ -25,7 +25,7 @@ module Travis
       private
 
       def load_file(filename)
-        YAML.load_file(filename) || {}
+        YAML.load_file(filename, aliases: true) || {}
       rescue => e
         puts "Could not parse file #{filename} (#{e.message})"
         {}
@@ -40,7 +40,7 @@ module Travis
       end
 
       def filenames
-        @filenames ||= Dir['config/travis.yml'] + Dir['config/travis/*.yml'].sort
+        @filenames ||= Dir['config/travis.yml'] + Dir['config/travis/*.yml']
       end
 
       def env

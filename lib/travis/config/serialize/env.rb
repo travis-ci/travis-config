@@ -18,9 +18,9 @@ module Travis
         private
 
         def vars
-          collect(Array(prefix), config).map do |keys, value|
+          collect(Array(prefix), config).to_h do |keys, value|
             [keys.map(&:to_s).map(&:upcase).join('_'), value.to_s]
-          end.to_h
+          end
         end
 
         def collect(keys, config)

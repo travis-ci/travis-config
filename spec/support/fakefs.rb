@@ -1,4 +1,3 @@
-require 'pp' # https://github.com/fakefs/fakefs#fakefs-vs-pp-----typeerror-superclass-mismatch-for-class-file
 require 'fakefs/safe'
 require 'fileutils'
 

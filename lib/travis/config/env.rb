@@ -10,8 +10,8 @@ module Travis
       end
 
       class Vars < Struct.new(:defaults, :prefix)
-        TRUE_REGEXP = /^(true|yes|on)$/.freeze
-        FALSE_REGEXP = /^(false|no|off)$/.freeze
+        TRUE_REGEXP = /^(true|yes|on)$/
+        FALSE_REGEXP = /^(false|no|off)$/
 
         def to_h
           hash(ENV, prefix.dup, defaults)
